@@ -8,25 +8,33 @@
 	<script type="text/javascript" src="../dist/ConfirmModal.js"></script>
 	<script type="text/javascript">
 
-		window.onload = function() {
-			var confirm = new ConfirmModal({
-				messages: {
-					title: "Título!",
-					desc: "descrição longa",
-					proceed: "ok",
-					cancel: "cancelar"
-				},
-				onProceed: function(event) {
-					console.log(event);
-				}
-			});
+		var confirm = new ConfirmModal({
+			messages: {
+				title: "Título!",
+				desc: "descrição longa",
+				proceed: "ok",
+				cancel: "cancelar"
+			},
+			onProceed: function(e) {
+				console.log(e);
+			}
+		});
 
-			confirm.open();
+		window.onload = function() {
+			
+
+			document.getElementById("thisbtn").onclick = function(event) {
+				
+
+				confirm.open();
+
+				event.preventDefault();
+			}
 		}
 	</script>
 
 </head>
 <body>
-
+<button id="thisbtn">abrir modal</button>
 </body>
 </html>
