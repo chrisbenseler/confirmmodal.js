@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npm run build-browserify && npm run build-lib",
     "build-browserify": "browserify src/ConfirmModal.js -s ConfirmModal -o dist/ConfirmModal.js",
-    "build-lib": "babel src --plugins transform-object-assign --out-dir lib --loose all"
+    "build-lib": "babel src --plugins transform-object-assign --out-dir lib --loose all",
+    "build-watch": "watchify src/ConfirmModal.js -s ConfirmModal -t [babelify] -o dist/ConfirmModal.js -v"
   },
   "repository": {
     "type": "git",
@@ -42,5 +43,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "watchify": "^3.7.0"
   }
 }
