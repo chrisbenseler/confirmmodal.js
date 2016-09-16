@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ConfirmModal.js Example</title>
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<script type="text/javascript" src="../dist/ConfirmModal.js"></script>
+	<script type="text/javascript">
+
+		window.onload = function() {
+			var confirm = new ConfirmModal({
+				messages: {
+					title: "Título!",
+					desc: "descrição longa",
+					proceed: "ok",
+					cancel: "cancelar"
+				},
+				onProceed: function(event) {
+					console.log(event);
+				}
+			});
+
+			confirm.open();
+		}
+	</script>
+
+</head>
+<body>
+
+</body>
+</html>

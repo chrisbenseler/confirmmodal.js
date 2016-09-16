@@ -1,11 +1,11 @@
 {
   "name": "confirmmodal.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Confirm Modal for javascript",
   "main": "index.js",
   "scripts": {
     "build": "npm run build-browserify && npm run build-lib",
-    "build-browserify": "browserify src/ConfirmModal.js -o dist/ConfirmModal.js",
+    "build-browserify": "browserify src/ConfirmModal.js -s ConfirmModal -o dist/ConfirmModal.js",
     "build-lib": "babel src --out-dir lib --loose all"
   },
   "repository": {

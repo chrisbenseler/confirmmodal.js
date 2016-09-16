@@ -1,0 +1,26 @@
+#mm-confirmmodal {
+	position: fixed;
+	top: calc(50% - 100px);
+	width: 400px;
+	left: 50%;
+	margin-left: -200px;
+	background-color: #FFFFFF;
+	border-top:5px solid #CCCCCC;
+	border-bottom:5px solid #CCCCCC;
+	z-index: 101;
+	height: auto;
+}
+#mm-confirmmodal #mm-confirmmodal-content {
+	padding: 45px;
+	overflow: hidden;
+}
+#mm-confirmmodal-overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: #DADADA;
+	opacity: 0.5;
+	z-index: 99;
+}

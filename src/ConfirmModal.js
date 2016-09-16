@@ -14,8 +14,10 @@ class ConfirmModal {
 	}
 
 	open() {
-		if(!document.getElementById(this.ids.container)) 
-			$("body").append(`<div id='${this.ids.container}'>
+		if(!document.getElementById(this.ids.container)) {
+
+
+			document.querySelector("body").innerHTML += (`<div id='${this.ids.container}'>
 								<div id='${this.ids.container}-content'>
 									<h2>${this.opts.messages.title}</h2>
 									<p>${this.opts.messages.desc}</p>
@@ -26,6 +28,7 @@ class ConfirmModal {
 								</div>
 							  </div>
 							  <div id='mm-confirmmodal-overlay'></div>`);
+		}
 
 		this.modalcontainer = document.getElementById(this.ids.container);
 		this.modaloverlay = document.getElementById(this.ids.overlay);
@@ -54,8 +57,10 @@ class ConfirmModal {
 	}
 
 	closeMe() {
-		$(this.modalcontainer).remove();
-		$(this.modaloverlay).remove();
+		//$(this.modalcontainer).remove();
+		//$(this.modaloverlay).remove();
+		this.modalcontainer.parentNode.removeChild(this.modalcontainer);
+		this.modaloverlay.parentNode.removeChild(this.modaloverlay);
 	}
 }
 
