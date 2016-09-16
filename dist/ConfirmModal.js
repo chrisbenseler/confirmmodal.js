@@ -93,18 +93,14 @@
 
 				this.modalcontainer = document.getElementById(this.ids.container);
 				this.modaloverlay = document.getElementById(this.ids.overlay);
-
-				console.log(this.modalcontainer);
-				console.log(this.modaloverlay);
-
 				this.proceed = document.getElementById(this.ids.btn_proceed);
 				this.cancel = document.getElementById(this.ids.btn_cancel);
 
-				this.handlers();
+				this._handlers();
 			}
 		}, {
-			key: "handlers",
-			value: function handlers() {
+			key: "_handlers",
+			value: function _handlers() {
 				var _this = this;
 
 				this.proceed.onclick = function (event) {
@@ -124,10 +120,7 @@
 		}, {
 			key: "_closeMe",
 			value: function _closeMe() {
-				//$(this.modalcontainer).remove();
-				//$(this.modaloverlay).remove();
 				this.modalcontainer.parentNode.removeChild(this.modalcontainer);
-
 				this.modaloverlay.parentNode.removeChild(this.modaloverlay);
 			}
 		}]);
