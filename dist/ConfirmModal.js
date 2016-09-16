@@ -39,30 +39,63 @@
 	}();
 
 	var ConfirmModal = function () {
+
+		/**
+      * @param {Object} options
+      */
 		function ConfirmModal(opts) {
 			_classCallCheck(this, ConfirmModal);
 
-			this.opts = opts;
-
-			var prefix = this.opts.id_prefix ? this.opts.id_prefix : "mm-confirmmodal";
-			this.ids = {
-				btn_cancel: prefix + "-cancel",
-				btn_proceed: prefix + "-proceed",
-				container: prefix,
-				overlay: prefix + "-overlay"
-			};
+			this._resolveOptions(opts);
 		}
 
+		/**
+   * Overrides or not default configuration with user proveided options
+   * @param {Object} options
+   */
+
+
 		_createClass(ConfirmModal, [{
+			key: "_resolveOptions",
+			value: function _resolveOptions() {
+				var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+
+				var prefix = options.id_prefix ? options.id_prefix : "mm-confirmmodal";
+
+				this.ids = {
+					btn_cancel: prefix + "-cancel",
+					btn_proceed: prefix + "-proceed",
+					container: prefix,
+					overlay: prefix + "-overlay"
+				};
+
+				var cssclasses = options.cssclasses ? options.cssclasses : {};
+
+				this.cssclasses = {
+					btn_cancel: cssclasses.btn_cancel ? cssclasses.btn_cancel : "btn btn-danger",
+					btn_proceed: cssclasses.btn_proceed ? cssclasses.btn_cancel : "btn btn-primary"
+				};
+
+				this.messages = options.messages;
+
+				this.callbacks = {
+					onProceed: typeof options.onProceed === 'function' ? options.onProceed : null,
+					onCancel: typeof options.onCancel === 'function' ? options.onCancel : null
+				};
+			}
+		}, {
 			key: "open",
 			value: function open() {
 				if (!document.getElementById(this.ids.container)) {
-
-					document.querySelector("body").innerHTML += "<div id='" + this.ids.container + "'>\n\t\t\t\t\t\t\t\t<div id='" + this.ids.container + "-content'>\n\t\t\t\t\t\t\t\t\t<h2>" + this.opts.messages.title + "</h2>\n\t\t\t\t\t\t\t\t\t<p>" + this.opts.messages.desc + "</p>\n\t\t\t\t\t\t\t\t\t<div class=\"pull-right\">\n\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary\" id=\"" + this.ids.btn_cancel + "\">" + this.opts.messages.cancel + "</button>\n\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary\" id=\"" + this.ids.btn_proceed + "\">" + this.opts.messages.proceed + "</button>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t  </div>\n\t\t\t\t\t\t\t  <div id='mm-confirmmodal-overlay'></div>";
+					document.querySelector("body").innerHTML += "<div id='" + this.ids.container + "'>\n\t\t\t\t\t\t\t\t<div id='" + this.ids.container + "-content'>\n\t\t\t\t\t\t\t\t\t<h2>" + this.messages.title + "</h2>\n\t\t\t\t\t\t\t\t\t<p>" + this.messages.desc + "</p>\n\t\t\t\t\t\t\t\t\t<footer>\n\t\t\t\t\t\t\t\t\t\t<button class=\"" + this.cssclasses.btn_cancel + "\" id=\"" + this.ids.btn_cancel + "\">" + this.messages.cancel + "</button>\n\t\t\t\t\t\t\t\t\t\t<button class=\"" + this.cssclasses.btn_proceed + "\" id=\"" + this.ids.btn_proceed + "\">" + this.messages.proceed + "</button>\n\t\t\t\t\t\t\t\t\t</footer>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t  </div>\n\t\t\t\t\t\t\t  <div id='" + this.ids.overlay + "'></div>";
 				}
 
 				this.modalcontainer = document.getElementById(this.ids.container);
 				this.modaloverlay = document.getElementById(this.ids.overlay);
+
+				console.log(this.modalcontainer);
+				console.log(this.modaloverlay);
 
 				this.proceed = document.getElementById(this.ids.btn_proceed);
 				this.cancel = document.getElementById(this.ids.btn_cancel);
@@ -76,24 +109,25 @@
 
 				this.proceed.onclick = function (event) {
 					event.stopPropagation();
-					if (_this.opts.onProceed) {
-						_this.opts.onProceed(event);
+					if (_this.callbacks.onProceed) {
+						_this.callbacks.onProceed(event);
 					}
-					_this.closeMe();
+					_this._closeMe();
 				};
 
 				this.cancel.onclick = function (event) {
 					event.stopPropagation();
-					if (_this.opts.onCancel) _this.opts.onCancel(event);
-					_this.closeMe();
+					if (_this.callbacks.onCancel) _this.callbacks.onCancel(event);
+					_this._closeMe();
 				};
 			}
 		}, {
-			key: "closeMe",
-			value: function closeMe() {
+			key: "_closeMe",
+			value: function _closeMe() {
 				//$(this.modalcontainer).remove();
 				//$(this.modaloverlay).remove();
 				this.modalcontainer.parentNode.removeChild(this.modalcontainer);
+
 				this.modaloverlay.parentNode.removeChild(this.modaloverlay);
 			}
 		}]);
