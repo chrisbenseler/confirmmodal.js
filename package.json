@@ -3,9 +3,10 @@
   "version": "1.0.6",
   "description": "Confirm Modal for javascript",
   "scripts": {
-    "build": "npm run build-browserify && npm run build-lib",
+    "build": "npm run build-browserify && npm run build-lib && npm run build-min",
     "build-browserify": "browserify src/ConfirmModal.js -s ConfirmModal -o dist/ConfirmModal.js",
     "build-lib": "babel src --plugins transform-object-assign --out-dir lib --loose all",
+    "build-min": "uglifyjs dist/ConfirmModal.js --comments '/!/' -m screw_ie8=true -c screw_ie8=true,unused=false -o dist/ConfirmModal.min.js",
     "build-watch": "watchify src/ConfirmModal.js -s ConfirmModal -t [babelify] -o dist/ConfirmModal.js -v"
   },
   "repository": {
@@ -45,6 +46,7 @@
     ]
   },
   "dependencies": {
+    "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
   }
 }

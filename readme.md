@@ -54,3 +54,7 @@ var options = { messages: {
             }
 }
 ```
+
+## Example
+Checkout the examples/ folderfor with samples
+TODO: online examples

@@ -90,6 +90,10 @@ class ConfirmModal {
 		}
 	}
 
+	/**
+	 * Close confirm
+	 */
+
 	_closeMe() {
 		this.modalcontainer.parentNode.removeChild(this.modalcontainer);
 		this.modaloverlay.parentNode.removeChild(this.modaloverlay);
