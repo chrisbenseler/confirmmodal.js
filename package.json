@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-browserify": "browserify src/ConfirmModal.js -o dist/ConfirmModal.js"
+    "build-browserify": "browserify src/ConfirmModal.js -o dist/ConfirmModal.js",
+    "prepublish": "babel src --out-dir lib --loose all"
   },
   "repository": {
     "type": "git",
