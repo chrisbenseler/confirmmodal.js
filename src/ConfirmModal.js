@@ -1,4 +1,4 @@
-export default class ConfirmModal {
+class ConfirmModal {
 
 	constructor(opts) {
 		this.opts = opts;
@@ -58,3 +58,5 @@ export default class ConfirmModal {
 		$(this.modaloverlay).remove();
 	}
 }
+
+module.exports = ConfirmModal;

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-browserify": "browserify src/ConfirmModal.js -o dist/ConfirmModal.js [ babelify --presets [ es2015 ] ]"
+    "build-browserify": "browserify src/ConfirmModal.js -o dist/ConfirmModal.js"
   },
   "repository": {
     "type": "git",
