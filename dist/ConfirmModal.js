@@ -88,7 +88,14 @@
 			key: "open",
 			value: function open() {
 				if (!document.getElementById(this.ids.container)) {
-					document.querySelector("body").innerHTML += "<div id='" + this.ids.container + "'>\n\t\t\t\t\t\t\t\t<div id='" + this.ids.container + "-content'>\n\t\t\t\t\t\t\t\t\t<h2>" + this.messages.title + "</h2>\n\t\t\t\t\t\t\t\t\t<p>" + this.messages.desc + "</p>\n\t\t\t\t\t\t\t\t\t<footer>\n\t\t\t\t\t\t\t\t\t\t<button class=\"" + this.cssclasses.btn_cancel + "\" id=\"" + this.ids.btn_cancel + "\">" + this.messages.cancel + "</button>\n\t\t\t\t\t\t\t\t\t\t<button class=\"" + this.cssclasses.btn_proceed + "\" id=\"" + this.ids.btn_proceed + "\">" + this.messages.proceed + "</button>\n\t\t\t\t\t\t\t\t\t</footer>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t  </div>\n\t\t\t\t\t\t\t  <div id='" + this.ids.overlay + "'></div>";
+
+					var d = document.createElement("div");
+					d.innerHTML = "<div id='" + this.ids.container + "'>\n\t\t\t\t\t\t\t\t<div id='" + this.ids.container + "-content'>\n\t\t\t\t\t\t\t\t\t<h2>" + this.messages.title + "</h2>\n\t\t\t\t\t\t\t\t\t<p>" + this.messages.desc + "</p>\n\t\t\t\t\t\t\t\t\t<footer>\n\t\t\t\t\t\t\t\t\t\t<button class=\"" + this.cssclasses.btn_cancel + "\" id=\"" + this.ids.btn_cancel + "\">" + this.messages.cancel + "</button>\n\t\t\t\t\t\t\t\t\t\t<button class=\"" + this.cssclasses.btn_proceed + "\" id=\"" + this.ids.btn_proceed + "\">" + this.messages.proceed + "</button>\n\t\t\t\t\t\t\t\t\t</footer>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t  </div>";
+					document.body.appendChild(d);
+
+					var doverlay = document.createElement("div");
+					doverlay.innerHTML = "<div id='" + this.ids.overlay + "'></div>";
+					document.body.appendChild(doverlay);
 				}
 
 				this.modalcontainer = document.getElementById(this.ids.container);
@@ -104,7 +111,7 @@
 				var _this = this;
 
 				this.proceed.onclick = function (event) {
-					event.stopPropagation();
+					event.preventDefault();
 					if (_this.callbacks.onProceed) {
 						_this.callbacks.onProceed(event);
 					}
@@ -112,7 +119,9 @@
 				};
 
 				this.cancel.onclick = function (event) {
-					event.stopPropagation();
+					event.preventDefault();
+					console.log(event);
+					console.log(_this.callbacks.onCancel);
 					if (_this.callbacks.onCancel) _this.callbacks.onCancel(event);
 					_this._closeMe();
 				};

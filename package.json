@@ -1,6 +1,6 @@
 {
   "name": "confirmmodal.js",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Confirm Modal for javascript",
   "scripts": {
     "build": "npm run build-browserify && npm run build-lib",

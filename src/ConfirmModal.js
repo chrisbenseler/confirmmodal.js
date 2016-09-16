@@ -43,7 +43,9 @@ class ConfirmModal {
 	 */
 	open() {
 		if(!document.getElementById(this.ids.container)) {
-			document.querySelector("body").innerHTML += (`<div id='${this.ids.container}'>
+
+			let d = document.createElement("div");
+			d.innerHTML = `<div id='${this.ids.container}'>
 								<div id='${this.ids.container}-content'>
 									<h2>${this.messages.title}</h2>
 									<p>${this.messages.desc}</p>
@@ -52,8 +54,12 @@ class ConfirmModal {
 										<button class="${this.cssclasses.btn_proceed}" id="${this.ids.btn_proceed}">${this.messages.proceed}</button>
 									</footer>
 								</div>
-							  </div>
-							  <div id='${this.ids.overlay}'></div>`);
+							  </div>`;
+			document.body.appendChild(d);
+
+			let doverlay = document.createElement("div");
+			doverlay.innerHTML = `<div id='${this.ids.overlay}'></div>`;
+			document.body.appendChild(doverlay);
 		}
 
 		this.modalcontainer = document.getElementById(this.ids.container);
@@ -69,7 +75,7 @@ class ConfirmModal {
 	 */
 	_handlers() {
 		this.proceed.onclick = event => {
-			event.stopPropagation();
+			event.preventDefault();
 			if(this.callbacks.onProceed) {
 				this.callbacks.onProceed(event);
 			}
@@ -77,7 +83,9 @@ class ConfirmModal {
 		}
 
 		this.cancel.onclick = event => {
-			event.stopPropagation();
+			event.preventDefault();
+			console.log(event);
+			console.log(this.callbacks.onCancel)
 			if(this.callbacks.onCancel)
 				this.callbacks.onCancel(event);
 			this._closeMe();
