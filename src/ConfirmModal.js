@@ -84,8 +84,6 @@ class ConfirmModal {
 
 		this.cancel.onclick = event => {
 			event.preventDefault();
-			console.log(event);
-			console.log(this.callbacks.onCancel)
 			if(this.callbacks.onCancel)
 				this.callbacks.onCancel(event);
 			this._closeMe();
