@@ -48,6 +48,25 @@ describe('ConfirmModal (unit)', () => {
 
 	})
 
+	describe('when passed css class names to be overriden', () => {
+		
+		let modal = new ConfirmModal({
+			cssclasses: {
+				btn_cancel: "class1",
+				btn_proceed: "class2"
+			}
+		})
+
+		it('css class from cancel button should be class1', () => {
+			expect(modal.cssclasses.btn_cancel).to.be.equal('class1')
+		})
+
+		it('css class from proceed button should be class2', () => {
+			expect(modal.cssclasses.btn_proceed).to.be.equal('class1')
+		})
+
+	})
+
 	
 
 	afterEach(() => {
