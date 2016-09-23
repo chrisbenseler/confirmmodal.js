@@ -15,8 +15,47 @@ describe('ConfirmModal (unit)', () => {
 	})
 
 	describe('when instantiated', () => {
+		let modal = new ConfirmModal();
 		it('should return an object', () => {
-			expect(new ConfirmModal()).to.be.an('object')
+			expect(modal).to.be.an('object')
+		})
+
+		it('should have default message values', () => {
+			expect(modal.messages.title).to.be.equal('Confirm')
+			expect(modal.messages.desc).to.be.equal('')
+			expect(modal.messages.cancel).to.be.equal('Cancel')
+			expect(modal.messages.proceed).to.be.equal('Confirm')
+		})
+	})
+
+	describe('when passed custom messages', () => {
+		let modal = new ConfirmModal({
+			messages: {
+				title: "test title",
+				desc: "test desc",
+				cancel: "test cancel",
+				proceed: "test proceed"
+			}
+		});
+
+		it('should have custom message values', () => {
+			expect(modal.messages.title).to.be.equal('test title')
+			expect(modal.messages.desc).to.be.equal('test desc')
+			expect(modal.messages.cancel).to.be.equal('test cancel')
+			expect(modal.messages.proceed).to.be.equal('test proceed')
+		})
+
+		let other_modal = new ConfirmModal({
+			messages: {
+				title: "test title",
+				cancel: "test cancel",
+				proceed: "test proceed"
+			}
+		})
+
+		it('should be blank if desc is not set', () => {
+			expect(other_modal.messages.desc).to.be.equal('')
+			
 		})
 	})
 

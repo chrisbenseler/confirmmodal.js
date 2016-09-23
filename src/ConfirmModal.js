@@ -23,14 +23,20 @@ class ConfirmModal {
 			overlay: prefix + "-overlay"
 		}
 
-		let cssclasses = options.cssclasses ? options.cssclasses : {};
+		let cssclasses = options.cssclasses ? options.cssclasses : {}
 
 		this.cssclasses = {
 			btn_cancel: cssclasses.btn_cancel ? cssclasses.btn_cancel : "btn btn-danger",
 			btn_proceed: cssclasses.btn_proceed ? cssclasses.btn_cancel : "btn btn-primary"
 		}
 
-		this.messages = options.messages;
+		let messages = options.messages || {}
+		this.messages = {
+			title: messages.title ? messages.title : "Confirm",
+			desc: messages.desc ? messages.desc : "",
+			cancel: messages.cancel ? messages.cancel : "Cancel",
+			proceed: messages.proceed ? messages.proceed : "Confirm"
+		}
 
 		this.callbacks = {
 			onProceed:  (typeof options.onProceed === 'function') ? options.onProceed : null,
