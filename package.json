@@ -8,7 +8,8 @@
     "build-lib": "babel src --plugins transform-object-assign --out-dir lib --loose all",
     "build-min": "uglifyjs dist/ConfirmModal.js --comments '/!/' -m screw_ie8=true -c screw_ie8=true,unused=false -o dist/ConfirmModal.min.js",
     "build-watch": "watchify src/ConfirmModal.js -s ConfirmModal -t [babelify] -o dist/ConfirmModal.js -v",
-    "test-unit": "mocha --compilers js:babel-core/register test/unit/**/*.spec.js"
+    "test-unit": "mocha --compilers js:babel-core/register test/unit/**/*.spec.js",
+    "test-integration": "mocha --compilers js:babel-core/register test/integration/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -35,7 +36,8 @@
     "browserify": "^13.1.0",
     "chai": "^3.5.0",
     "mocha": "^3.0.2",
-    "nock": "^8.0.0"
+    "nock": "^8.0.0",
+    "wdio-mocha-framework": "^0.4.3"
   },
   "browserify": {
     "transform": [
