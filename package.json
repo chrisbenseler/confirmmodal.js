@@ -9,7 +9,7 @@
     "build-min": "uglifyjs dist/ConfirmModal.js --comments '/!/' -m screw_ie8=true -c screw_ie8=true,unused=false -o dist/ConfirmModal.min.js",
     "build-watch": "watchify src/ConfirmModal.js -s ConfirmModal -t [babelify] -o dist/ConfirmModal.js -v",
     "test-unit": "mocha --compilers js:babel-core/register test/unit/**/*.spec.js",
-    "test-integration": "mocha --compilers js:babel-core/register test/integration/**/*.spec.js"
+    "test-integration": "./node_modules/.bin/wdio wdio.conf.js"
   },
   "repository": {
     "type": "git",

@@ -77,7 +77,13 @@
 					btn_proceed: cssclasses.btn_proceed ? cssclasses.btn_cancel : "btn btn-primary"
 				};
 
-				this.messages = options.messages;
+				var messages = options.messages || {};
+				this.messages = {
+					title: messages.title ? messages.title : "Confirm",
+					desc: messages.desc ? messages.desc : "",
+					cancel: messages.cancel ? messages.cancel : "Cancel",
+					proceed: messages.proceed ? messages.proceed : "Confirm"
+				};
 
 				this.callbacks = {
 					onProceed: typeof options.onProceed === 'function' ? options.onProceed : null,

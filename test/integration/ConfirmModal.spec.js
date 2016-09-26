@@ -1,8 +1,17 @@
-var assert = require('assert');
-describe('webdriver.io page', function() {
-    it('should have the right title - the fancy generator way', function () {
-        browser.url('http://webdriver.io');
-        var title = browser.getTitle();
-        assert.equal(title, 'WebdriverIO - Selenium 2.0 javascript bindings for nodejs');
-    });
-});
+
+describe('ConfirmModal.js html test page', () => {
+
+	let nav = browser.url(`file://${__dirname}/index.spec.html`)
+
+    it('should have the right title', () => {
+        var title = browser.getTitle()
+        expect(title).to.be.equal('ConfirmModal.js Example');
+	})
+
+    it('should have confirm modal element', () => {
+		return nav.click('#thisbtn').isExisting("#mm-confirmmodal").then( isExisting => {
+			expect(isExisting).to.be.true
+		})
+    })
+		
+})

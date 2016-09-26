@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+	<title>ConfirmModal.js Example</title>
+
+	<script type="text/javascript" src="../../dist/ConfirmModal.min.js"></script>
+	<script type="text/javascript">
+
+		var confirm = new ConfirmModal({
+			messages: {
+				title: "The title!",
+				desc: "Description goes here",
+				proceed: "Ok",
+				cancel: "Cancel"
+			},
+			onProceed: function(e) {
+				console.log(e);
+			}
+		});
+
+		window.onload = function() {
+			document.getElementById("thisbtn").onclick = function(event) {
+				confirm.open();
+				event.preventDefault();
+			}
+		}
+	</script>
+
+</head>
+<body>
+<button id="thisbtn">Open modal</button>
+</body>
+</html>
