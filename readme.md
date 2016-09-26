@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/chrisbenseler/confirmmodal.js.svg?branch=master)](https://travis-ci.org/chrisbenseler/confirmmodal.js)
 # ConfirmModal.js
 
 > Modern Confirm Modal javascript module for browsers, standalone instalation. No libs/frameworks (jQuery, Bootstrap, etc...) required
@@ -48,13 +49,35 @@ var options = { messages: {
 			onProceed: function(e) {
 				console.log(e);
 			},
-            cssclasses: {
-            	btn_cancel: "btn any-class", //default is 'btn btn-danger'
-                btn_proceed: "any-other-class" //default is 'btn btn-primary'
-            }
-}
+			cssclasses: {
+				btn_cancel: "btn any-class", //default is 'btn btn-danger'
+				btn_proceed: "any-other-class" //default is 'btn btn-primary'
+			}
+		}
 ```
 
 ## Example
 Checkout the examples/ folderfor with samples
 TODO: online examples
+
+## Tests
+
+### Unit
+
+Specs are under test/unit/ path
+
+Run
+```
+npm run test-unit
+```
+
+### Integration
+
+Specs are under test/integration/ path. They use Webdriver.io to control a browser and automatize tests
+
+Run
+```
+npm run test-integration
+```
+
+All definitions are set in wdio.conf.js
