@@ -44,7 +44,7 @@ class ConfirmModal {
 		}
 
 		let buttons = options.buttons ? options.buttons : {}
-		console.log(buttons.cancel && typeof buttons.cancel === 'boolean')
+
 		this.buttons = {
 			cancel: (typeof buttons.cancel === 'boolean') ? buttons.cancel : true,
 			proceed: (typeof buttons.proceed === 'boolean') ? buttons.proceed : true,
@@ -86,9 +86,12 @@ class ConfirmModal {
 
 		this.modalcontainer = document.getElementById(this.ids.container)
 		this.modaloverlay = document.getElementById(this.ids.overlay)
-		this.proceed = document.getElementById(this.ids.btn_proceed)
-		this.cancel = document.getElementById(this.ids.btn_cancel)
-
+		if(this.buttons.proceed) {
+			this.proceed = document.getElementById(this.ids.btn_proceed)
+		}
+		if(this.buttons.cancel) {
+			this.cancel = document.getElementById(this.ids.btn_cancel)
+		}
 		this._handlers()
 	}
 
@@ -96,19 +99,24 @@ class ConfirmModal {
 	 * Button handlers
 	 */
 	_handlers() {
-		this.proceed.onclick = event => {
-			event.preventDefault();
-			if(this.callbacks.onProceed) {
-				this.callbacks.onProceed(event);
+
+		if(this.buttons.proceed) {
+			this.proceed.onclick = event => {
+				event.preventDefault();
+				if(this.callbacks.onProceed) {
+					this.callbacks.onProceed(event);
+				}
+				this._closeMe();
 			}
-			this._closeMe();
 		}
 
-		this.cancel.onclick = event => {
-			event.preventDefault();
-			if(this.callbacks.onCancel)
-				this.callbacks.onCancel(event);
-			this._closeMe();
+		if(this.buttons.cancel) {
+			this.cancel.onclick = event => {
+				event.preventDefault();
+				if(this.callbacks.onCancel)
+					this.callbacks.onCancel(event);
+				this._closeMe();
+			}
 		}
 	}
 
