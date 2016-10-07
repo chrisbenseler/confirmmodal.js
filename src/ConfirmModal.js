@@ -42,6 +42,15 @@ class ConfirmModal {
 			onProceed:  (typeof options.onProceed === 'function') ? options.onProceed : null,
 			onCancel:  (typeof options.onCancel === 'function') ? options.onCancel : null
 		}
+
+		let buttons = options.buttons ? options.buttons : {}
+		console.log(buttons.cancel && typeof buttons.cancel === 'boolean')
+		this.buttons = {
+			cancel: (typeof buttons.cancel === 'boolean') ? buttons.cancel : true,
+			proceed: (typeof buttons.proceed === 'boolean') ? buttons.proceed : true,
+		}
+
+		console.log(this.buttons)
 	}
 
 	/**
@@ -50,30 +59,37 @@ class ConfirmModal {
 	open() {
 		if(!document.getElementById(this.ids.container)) {
 
-			let d = document.createElement("div");
-			d.innerHTML = `<div id='${this.ids.container}'>
+			let d = document.createElement("div"),
+				html = `<div id='${this.ids.container}'>
 								<div id='${this.ids.container}-content'>
 									<h2>${this.messages.title}</h2>
 									<p>${this.messages.desc}</p>
-									<footer>
-										<button class="${this.cssclasses.btn_cancel}" id="${this.ids.btn_cancel}">${this.messages.cancel}</button>
-										<button class="${this.cssclasses.btn_proceed}" id="${this.ids.btn_proceed}">${this.messages.proceed}</button>
-									</footer>
+									<footer>`;
+
+			if(this.buttons.cancel)
+				html += `<button class="${this.cssclasses.btn_cancel}" id="${this.ids.btn_cancel}">${this.messages.cancel}</button>`
+							
+			if(this.buttons.proceed)
+				html += `<button class="${this.cssclasses.btn_proceed}" id="${this.ids.btn_proceed}">${this.messages.proceed}</button>`
+			
+			html += `						</footer>
 								</div>
 							  </div>`;
+			
+			d.innerHTML = html;
 			document.body.appendChild(d);
 
 			let doverlay = document.createElement("div");
-			doverlay.innerHTML = `<div id='${this.ids.overlay}'></div>`;
+			doverlay.innerHTML = `<div id='${this.ids.overlay}'></div>`
 			document.body.appendChild(doverlay);
 		}
 
-		this.modalcontainer = document.getElementById(this.ids.container);
-		this.modaloverlay = document.getElementById(this.ids.overlay);
-		this.proceed = document.getElementById(this.ids.btn_proceed);
-		this.cancel = document.getElementById(this.ids.btn_cancel);
+		this.modalcontainer = document.getElementById(this.ids.container)
+		this.modaloverlay = document.getElementById(this.ids.overlay)
+		this.proceed = document.getElementById(this.ids.btn_proceed)
+		this.cancel = document.getElementById(this.ids.btn_cancel)
 
-		this._handlers();
+		this._handlers()
 	}
 
 	/**

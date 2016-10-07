@@ -13,6 +13,6 @@ describe('ConfirmModal.js html test page', () => {
 
 	it('should have confirm modal element', () => {
 		return nav.click('#thisbtn').isExisting("#mm-confirmmodal").should.eventually.true
-    })
-		
+	})
+
 })

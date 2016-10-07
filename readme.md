@@ -52,6 +52,10 @@ var options = { messages: {
 			cssclasses: {
 				btn_cancel: "btn any-class", //default is 'btn btn-danger'
 				btn_proceed: "any-other-class" //default is 'btn btn-primary'
+			},
+			buttons: {
+				cancel: false, //default is true
+				proceed: false //default is true
 			}
 		}
 ```

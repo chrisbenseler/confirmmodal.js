@@ -89,14 +89,31 @@
 					onProceed: typeof options.onProceed === 'function' ? options.onProceed : null,
 					onCancel: typeof options.onCancel === 'function' ? options.onCancel : null
 				};
+
+				var buttons = options.buttons ? options.buttons : {};
+				console.log(buttons.cancel && typeof buttons.cancel === 'boolean');
+				this.buttons = {
+					cancel: typeof buttons.cancel === 'boolean' ? buttons.cancel : true,
+					proceed: typeof buttons.proceed === 'boolean' ? buttons.proceed : true
+				};
+
+				console.log(this.buttons);
 			}
 		}, {
 			key: "open",
 			value: function open() {
 				if (!document.getElementById(this.ids.container)) {
 
-					var d = document.createElement("div");
-					d.innerHTML = "<div id='" + this.ids.container + "'>\n\t\t\t\t\t\t\t\t<div id='" + this.ids.container + "-content'>\n\t\t\t\t\t\t\t\t\t<h2>" + this.messages.title + "</h2>\n\t\t\t\t\t\t\t\t\t<p>" + this.messages.desc + "</p>\n\t\t\t\t\t\t\t\t\t<footer>\n\t\t\t\t\t\t\t\t\t\t<button class=\"" + this.cssclasses.btn_cancel + "\" id=\"" + this.ids.btn_cancel + "\">" + this.messages.cancel + "</button>\n\t\t\t\t\t\t\t\t\t\t<button class=\"" + this.cssclasses.btn_proceed + "\" id=\"" + this.ids.btn_proceed + "\">" + this.messages.proceed + "</button>\n\t\t\t\t\t\t\t\t\t</footer>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t  </div>";
+					var d = document.createElement("div"),
+					    html = "<div id='" + this.ids.container + "'>\n\t\t\t\t\t\t\t\t<div id='" + this.ids.container + "-content'>\n\t\t\t\t\t\t\t\t\t<h2>" + this.messages.title + "</h2>\n\t\t\t\t\t\t\t\t\t<p>" + this.messages.desc + "</p>\n\t\t\t\t\t\t\t\t\t<footer>";
+
+					if (this.buttons.cancel) html += "<button class=\"" + this.cssclasses.btn_cancel + "\" id=\"" + this.ids.btn_cancel + "\">" + this.messages.cancel + "</button>";
+
+					if (this.buttons.proceed) html += "<button class=\"" + this.cssclasses.btn_proceed + "\" id=\"" + this.ids.btn_proceed + "\">" + this.messages.proceed + "</button>";
+
+					html += "\t\t\t\t\t\t</footer>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t  </div>";
+
+					d.innerHTML = html;
 					document.body.appendChild(d);
 
 					var doverlay = document.createElement("div");
