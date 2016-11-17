@@ -50,7 +50,6 @@ class ConfirmModal {
 			proceed: (typeof buttons.proceed === 'boolean') ? buttons.proceed : true,
 		}
 
-		console.log(this.buttons)
 	}
 
 	/**
@@ -123,7 +122,6 @@ class ConfirmModal {
 	/**
 	 * Close confirm
 	 */
-
 	_closeMe() {
 		this.modalcontainer.parentNode.removeChild(this.modalcontainer);
 		this.modaloverlay.parentNode.removeChild(this.modaloverlay);

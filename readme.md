@@ -78,6 +78,12 @@ npm run test-unit
 ### Integration
 
 Specs are under test/integration/ path. They use Webdriver.io to control a browser and automatize tests
+Install [selenium-standalone](https://www.npmjs.com/package/selenium-standalone) as npm package and start it
+```
+npm install selenium-standalone@latest -g
+selenium-standalone install
+selenium-standalone start
+```
 
 Run
 ```
