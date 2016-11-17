@@ -1,3 +1,4 @@
+'use strict'
 
 class ConfirmModal {
 
@@ -6,6 +7,10 @@ class ConfirmModal {
      */
 	constructor(opts) {
 		this._resolveOptions(opts);
+	}
+
+	toString() {
+		return 1;
 	}
 
 	/**

@@ -12,7 +12,7 @@
 		global.ConfirmModal = mod.exports;
 	}
 })(this, function (module) {
-	"use strict";
+	'use strict';
 
 	function _classCallCheck(instance, Constructor) {
 		if (!(instance instanceof Constructor)) {
@@ -49,16 +49,15 @@
 			this._resolveOptions(opts);
 		}
 
-		/**
-   * Overrides or not default configuration with user proveided options
-   * @param {Object} options
-   */
-
-
 		_createClass(ConfirmModal, [{
+			key: "toString",
+			value: function toString() {
+				return 1;
+			}
+		}, {
 			key: "_resolveOptions",
 			value: function _resolveOptions() {
-				var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 
 				var prefix = options.id_prefix ? options.id_prefix : "mm-confirmmodal";
@@ -96,8 +95,6 @@
 					cancel: typeof buttons.cancel === 'boolean' ? buttons.cancel : true,
 					proceed: typeof buttons.proceed === 'boolean' ? buttons.proceed : true
 				};
-
-				console.log(this.buttons);
 			}
 		}, {
 			key: "open",
