@@ -9,10 +9,6 @@ class ConfirmModal {
 		this._resolveOptions(opts);
 	}
 
-	toString() {
-		return 1;
-	}
-
 	/**
 	 * Overrides or not default configuration with user proveided options
 	 * @param {Object} options

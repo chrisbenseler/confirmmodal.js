@@ -49,12 +49,13 @@
 			this._resolveOptions(opts);
 		}
 
+		/**
+   * Overrides or not default configuration with user proveided options
+   * @param {Object} options
+   */
+
+
 		_createClass(ConfirmModal, [{
-			key: "toString",
-			value: function toString() {
-				return 1;
-			}
-		}, {
 			key: "_resolveOptions",
 			value: function _resolveOptions() {
 				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
