@@ -6,7 +6,7 @@ class ConfirmModal {
      * @param {Object} options
      */
 	constructor(opts) {
-		this._resolveOptions(opts);
+		this._resolveOptions(opts)
 	}
 
 	/**
@@ -64,7 +64,7 @@ class ConfirmModal {
 								<div id='${this.ids.container}-content'>
 									<h2>${this.messages.title}</h2>
 									<p>${this.messages.desc}</p>
-									<footer>`;
+									<footer>`
 
 			if(this.buttons.cancel)
 				html += `<button class="${this.cssclasses.btn_cancel}" id="${this.ids.btn_cancel}">${this.messages.cancel}</button>`
@@ -74,14 +74,14 @@ class ConfirmModal {
 			
 			html += `						</footer>
 								</div>
-							  </div>`;
+							  </div>`
 			
-			d.innerHTML = html;
-			document.body.appendChild(d);
+			d.innerHTML = html
+			document.body.appendChild(d)
 
-			let doverlay = document.createElement("div");
+			let doverlay = document.createElement("div")
 			doverlay.innerHTML = `<div id='${this.ids.overlay}'></div>`
-			document.body.appendChild(doverlay);
+			document.body.appendChild(doverlay)
 		}
 
 		this.modalcontainer = document.getElementById(this.ids.container)
@@ -102,20 +102,20 @@ class ConfirmModal {
 
 		if(this.buttons.proceed) {
 			this.proceed.onclick = event => {
-				event.preventDefault();
+				event.preventDefault()
 				if(this.callbacks.onProceed) {
-					this.callbacks.onProceed(event);
+					this.callbacks.onProceed(event)
 				}
-				this._closeMe();
+				this._closeMe()
 			}
 		}
 
 		if(this.buttons.cancel) {
 			this.cancel.onclick = event => {
-				event.preventDefault();
+				event.preventDefault()
 				if(this.callbacks.onCancel)
-					this.callbacks.onCancel(event);
-				this._closeMe();
+					this.callbacks.onCancel(event)
+				this._closeMe()
 			}
 		}
 	}
@@ -124,9 +124,9 @@ class ConfirmModal {
 	 * Close confirm
 	 */
 	_closeMe() {
-		this.modalcontainer.parentNode.removeChild(this.modalcontainer);
-		this.modaloverlay.parentNode.removeChild(this.modaloverlay);
+		this.modalcontainer.parentNode.removeChild(this.modalcontainer)
+		this.modaloverlay.parentNode.removeChild(this.modaloverlay)
 	}
 }
 
-module.exports = ConfirmModal;
+module.exports = ConfirmModal
