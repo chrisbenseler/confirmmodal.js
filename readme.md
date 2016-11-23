@@ -1,9 +1,9 @@
-<p align="center">
 [![Build Status](https://travis-ci.org/chrisbenseler/confirmmodal.js.svg?branch=master)](https://travis-ci.org/chrisbenseler/confirmmodal.js)
+
 <a href="https://www.npmjs.com/package/confirmmodal.js">
 <img src="https://badge.fury.io/js/confirmmodal.js.svg">
 </a>
-</p>
+
 # ConfirmModal.js
 
 > Modern Confirm Modal javascript module for browsers, standalone instalation. No libs/frameworks (jQuery, Bootstrap, etc...) required
