@@ -100,23 +100,19 @@ class ConfirmModal {
 	 */
 	_handlers() {
 
+		function handle_btn(e, type) {
+			e.preventDefault()
+			if(this.callbacks[type])
+				this.callbacks[type](event)
+			this._closeMe()
+		}
+
 		if(this.buttons.proceed) {
-			this.proceed.onclick = event => {
-				event.preventDefault()
-				if(this.callbacks.onProceed) {
-					this.callbacks.onProceed(event)
-				}
-				this._closeMe()
-			}
+			this.proceed.onclick = handle_btn.bind(this, event, 'onProceed')
 		}
 
 		if(this.buttons.cancel) {
-			this.cancel.onclick = event => {
-				event.preventDefault()
-				if(this.callbacks.onCancel)
-					this.callbacks.onCancel(event)
-				this._closeMe()
-			}
+			this.cancel.onclick = handle_btn.bind(this, event, 'onCancel')
 		}
 	}
 
