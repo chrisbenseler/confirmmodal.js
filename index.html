@@ -6,7 +6,7 @@
 
 	<link rel="stylesheet" type="text/css" href="style.css">
 
-	<script type="text/javascript" src="../dist/ConfirmModal.min.js"></script>
+	<script type="text/javascript" src="../dist/ConfirmModal.js"></script>
 	<script type="text/javascript">
 
 		var confirm = new ConfirmModal({
@@ -17,7 +17,10 @@
 				cancel: "Cancel"
 			},
 			onProceed: function(e) {
-				console.log(e);
+				console.log('Callback onProceed');
+			},
+			onCancel: function(e) {
+				console.log('Callback onCancel');
 			}
 		});
 
