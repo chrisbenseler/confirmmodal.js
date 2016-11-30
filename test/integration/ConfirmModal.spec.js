@@ -1,18 +1,24 @@
-let chai = require('chai')
-let chaiAsPromised = require('chai-as-promised')
-chai.use(chaiAsPromised)
+
 
 describe('ConfirmModal.js html test page', () => {
 
-	let nav = browser.url(`file://${__dirname}/index.spec.html`)
+	browser.url(`file://${__dirname}/index.spec.html`)
 
 	it('should have the right title', () => {
 		expect(browser.getTitle()).to.be.equal('ConfirmModal.js Example');
-
 	})
 
 	it('should have confirm modal element', () => {
-		return nav.click('#thisbtn').isExisting("#mm-confirmmodal").should.eventually.true
+		browser.click('#thisbtn')
+		expect(browser.isExisting("#mm-confirmmodal")).to.be.true
+	})
+
+	it('should have proceed button', () => {
+		expect(browser.isExisting('.btn.btn-primary')).to.be.true
+	})
+
+	it('should have cancel button', () => {
+		expect(browser.isExisting('.btn.btn-danger')).to.be.true
 	})
 
 	it('should close the modal on cancel button click', () => {
@@ -20,4 +26,15 @@ describe('ConfirmModal.js html test page', () => {
 		expect(browser.isExisting("#mm-confirmmodal")).to.be.false
 	})
 
+	it('should open new modal without buttons', () => {
+		browser.click('#thisbtnnobuttons')
+	})
+	
+	it('should not have proceed button', () => {
+		expect(browser.isExisting('.btn.btn-primary')).to.be.false
+	})
+
+	it('should not have cancel button', () => {
+		expect(browser.isExisting('.btn.btn-danger')).to.be.false
+	})
 })

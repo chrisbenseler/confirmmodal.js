@@ -55,8 +55,15 @@ describe('ConfirmModal (unit)', () => {
 
 		it('should be blank if desc is not set', () => {
 			expect(other_modal.messages.desc).to.be.equal('')
-			
 		})
+
+		it('should have proceed button', () => {
+			expect(other_modal.buttons.proceed).to.be.true
+		})
+		it('should have cancel button', () => {
+			expect(other_modal.buttons.cancel).to.be.true
+		})
+
 	})
 
 	describe('when passed callback functions', () => {
@@ -102,6 +109,18 @@ describe('ConfirmModal (unit)', () => {
 
 		it('css class from proceed button should be class2', () => {
 			expect(modal.cssclasses.btn_proceed).to.be.equal('class1')
+		})
+
+	})
+
+	describe('when passed false to buttons', () => {
+		let new_modal = new ConfirmModal({ buttons: { cancel: false, proceed: false } });
+		
+		it('should not have proceed button', () => {
+			expect(new_modal.buttons.proceed).to.be.false
+		})
+		it('should not have cancel button', () => {
+			expect(new_modal.buttons.cancel).to.be.false
 		})
 
 	})

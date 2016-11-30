@@ -19,16 +19,29 @@
 			}
 		});
 
+		var nobtns_confirm = new ConfirmModal({
+			buttons: {
+				cancel: false,
+				proceed: false
+			}
+		})
+
 		window.onload = function() {
 			document.getElementById("thisbtn").onclick = function(event) {
 				confirm.open();
 				event.preventDefault();
 			}
+			document.getElementById("thisbtnnobuttons").onclick = function(event) {
+				nobtns_confirm.open();
+				event.preventDefault();
+			}
+
 		}
 	</script>
 
 </head>
 <body>
 <button id="thisbtn">Open modal</button>
+<button id="thisbtnnobuttons">Open modal no buttons</button>
 </body>
 </html>

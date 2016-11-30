@@ -140,6 +140,9 @@ var config = {
         var chai = require('chai');
         global.expect = chai.expect;
         chai.Should();
+
+        var chaiAsPromised = require('chai-as-promised')
+        chai.use(chaiAsPromised)
     },
     //
     // Hook that gets executed before the suite starts
