@@ -145,7 +145,7 @@
 
 					if (type == 'onProceed') {
 						if (this.prompt.enabled && !document.querySelector("#" + this.ids.container + " form").checkValidity()) return false;
-						this.promptvalue = document.querySelector("#" + this.ids.container + " form textarea").value;
+						if (this.prompt.enabled) this.promptvalue = document.querySelector("#" + this.ids.container + " form textarea").value;
 					}
 					if (this.callbacks[type]) this.callbacks[type].call(this, e);
 					this._closeMe();
