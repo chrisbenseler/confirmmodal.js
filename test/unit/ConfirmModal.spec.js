@@ -122,10 +122,18 @@ describe('ConfirmModal (unit)', () => {
 		it('should not have cancel button', () => {
 			expect(new_modal.buttons.cancel).to.be.false
 		})
-
 	})
 
-	
+	describe('when create modal with prompt', () => {
+		let new_modal = new ConfirmModal({ prompt: { enabled: true, required: true } });
+		
+		it('should have textarea', () => {
+			expect(new_modal.prompt.enabled).to.be.true
+		})
+		it('should not have cancel button', () => {
+			expect(new_modal.prompt.required).to.be.true
+		})
+	})
 
 	afterEach(() => {
 		nock.cleanAll()

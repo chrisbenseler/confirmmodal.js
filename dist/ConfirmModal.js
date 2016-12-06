@@ -49,12 +49,6 @@
 			this._resolveOptions(opts);
 		}
 
-		/**
-   * Overrides or not default configuration with user proveided options
-   * @param {Object} options
-   */
-
-
 		_createClass(ConfirmModal, [{
 			key: "_resolveOptions",
 			value: function _resolveOptions() {
@@ -91,10 +85,16 @@
 				};
 
 				var buttons = options.buttons ? options.buttons : {};
-
 				this.buttons = {
 					cancel: typeof buttons.cancel === 'boolean' ? buttons.cancel : true,
 					proceed: typeof buttons.proceed === 'boolean' ? buttons.proceed : true
+				};
+
+				var prompt = options.prompt ? options.prompt : {};
+				this.prompt = {
+					enabled: typeof prompt.enabled === 'boolean' ? prompt.enabled : false,
+					required: typeof prompt.required === 'boolean' ? prompt.required : false,
+					value: null
 				};
 			}
 		}, {
@@ -102,8 +102,15 @@
 			value: function open() {
 				if (!document.getElementById(this.ids.container)) {
 
+					var prompt = '';
+					if (this.prompt.enabled) {
+						prompt = '<form>';
+						if (this.prompt.required) prompt += "<textarea class='form-control' required></textarea>";else prompt += "<textarea class='form-control'></textarea>";
+						prompt += '</form>';
+					}
+
 					var d = document.createElement("div"),
-					    html = "<div id='" + this.ids.container + "'>\n\t\t\t\t\t\t\t\t<div id='" + this.ids.container + "-content'>\n\t\t\t\t\t\t\t\t\t<h2>" + this.messages.title + "</h2>\n\t\t\t\t\t\t\t\t\t<p>" + this.messages.desc + "</p>\n\t\t\t\t\t\t\t\t\t<footer>";
+					    html = "<div id='" + this.ids.container + "'>\n\t\t\t\t\t\t\t\t<div id='" + this.ids.container + "-content'>\n\t\t\t\t\t\t\t\t\t<h2>" + this.messages.title + "</h2>\n\t\t\t\t\t\t\t\t\t<p>" + this.messages.desc + "</p>\n\t\t\t\t\t\t\t\t\t" + prompt + "\n\t\t\t\t\t\t\t\t\t<footer>";
 
 					if (this.buttons.cancel) html += "<button class=\"" + this.cssclasses.btn_cancel + "\" id=\"" + this.ids.btn_cancel + "\">" + this.messages.cancel + "</button>";
 
@@ -135,7 +142,12 @@
 
 				function handle_btn(e, type) {
 					e.preventDefault();
-					if (this.callbacks[type]) this.callbacks[type](event);
+
+					if (type == 'onProceed') {
+						if (this.prompt.enabled && !document.querySelector("#" + this.ids.container + " form").checkValidity()) return false;
+						this.promptvalue = document.querySelector("#" + this.ids.container + " form textarea").value;
+					}
+					if (this.callbacks[type]) this.callbacks[type].call(this, e);
 					this._closeMe();
 				}
 
@@ -152,6 +164,14 @@
 			value: function _closeMe() {
 				this.modalcontainer.parentNode.removeChild(this.modalcontainer);
 				this.modaloverlay.parentNode.removeChild(this.modaloverlay);
+			}
+		}, {
+			key: "promptvalue",
+			get: function get() {
+				return this.prompt.value;
+			},
+			set: function set(value) {
+				this.prompt.value = value;
 			}
 		}]);
 

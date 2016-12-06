@@ -9,6 +9,14 @@ class ConfirmModal {
 		this._resolveOptions(opts)
 	}
 
+	get promptvalue() {
+		return this.prompt.value
+	}
+
+	set promptvalue(value) {
+		this.prompt.value = value
+	}
+
 	/**
 	 * Overrides or not default configuration with user proveided options
 	 * @param {Object} options
@@ -45,10 +53,16 @@ class ConfirmModal {
 		}
 
 		let buttons = options.buttons ? options.buttons : {}
-
 		this.buttons = {
 			cancel: (typeof buttons.cancel === 'boolean') ? buttons.cancel : true,
-			proceed: (typeof buttons.proceed === 'boolean') ? buttons.proceed : true,
+			proceed: (typeof buttons.proceed === 'boolean') ? buttons.proceed : true
+		}
+
+		let prompt = options.prompt ? options.prompt : {}
+		this.prompt = {
+			enabled: (typeof prompt.enabled === 'boolean') ? prompt.enabled : false,
+			required: (typeof prompt.required === 'boolean') ? prompt.required : false,
+			value: null
 		}
 
 	}
@@ -59,11 +73,22 @@ class ConfirmModal {
 	open() {
 		if(!document.getElementById(this.ids.container)) {
 
+			let prompt = ''
+			if(this.prompt.enabled) {
+				prompt = '<form>'
+				if(this.prompt.required)
+					prompt += `<textarea class='form-control' required></textarea>`
+				else
+					prompt += `<textarea class='form-control'></textarea>`
+				prompt += '</form>'
+			}
+
 			let d = document.createElement("div"),
 				html = `<div id='${this.ids.container}'>
 								<div id='${this.ids.container}-content'>
 									<h2>${this.messages.title}</h2>
 									<p>${this.messages.desc}</p>
+									${prompt}
 									<footer>`
 
 			if(this.buttons.cancel)
@@ -102,8 +127,14 @@ class ConfirmModal {
 
 		function handle_btn(e, type) {
 			e.preventDefault()
+
+			if(type == 'onProceed') {
+				if (this.prompt.enabled && !document.querySelector(`#${this.ids.container} form`).checkValidity())
+					return false
+				this.promptvalue = document.querySelector(`#${this.ids.container} form textarea`).value
+			}
 			if(this.callbacks[type])
-				this.callbacks[type](event)
+				this.callbacks[type].call(this, e)
 			this._closeMe()
 		}
 
@@ -123,6 +154,8 @@ class ConfirmModal {
 		this.modalcontainer.parentNode.removeChild(this.modalcontainer)
 		this.modaloverlay.parentNode.removeChild(this.modaloverlay)
 	}
+
+	
 }
 
 module.exports = ConfirmModal
