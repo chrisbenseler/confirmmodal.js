@@ -42,6 +42,7 @@ User can provide an object with several keys:
 * cssclasses: json with the css classes from the cancel and proceed buttons. If provided, will override default values
 * onProceed: function to be called after proceed, if provided
 * onCancel: function to be called after cancel, if provided
+* prompt: json with settings for user prompt (if is enabled, and if is required)
 
 Examples:
 ```javascript
@@ -61,8 +62,19 @@ var options = { messages: {
 			buttons: {
 				cancel: false, //default is true
 				proceed: false //default is true
+			},
+			prompt: {
+				enabled: true, //default is true
+				required: true //default is false 
 			}
 		}
+```
+
+#### onProceed callback
+
+When onProceed callback is called, the 'this' is the instance of the ConfirmModal. If prompt is enabled, the value filled by in the modal can be retrieved using the 'promptvalue' attribute, as follows:
+```javascript
+this.promptvalue
 ```
 
 ## Example
