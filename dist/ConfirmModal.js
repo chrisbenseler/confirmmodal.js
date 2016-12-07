@@ -148,7 +148,7 @@
 						if (this.prompt.enabled) this.promptvalue = document.querySelector("#" + this.ids.container + " form textarea").value;
 					}
 					if (this.callbacks[type]) this.callbacks[type].call(this, e);
-					this._closeMe();
+					this.close();
 				}
 
 				if (this.buttons.proceed) {
@@ -160,8 +160,8 @@
 				}
 			}
 		}, {
-			key: "_closeMe",
-			value: function _closeMe() {
+			key: "close",
+			value: function close() {
 				this.modalcontainer.parentNode.removeChild(this.modalcontainer);
 				this.modaloverlay.parentNode.removeChild(this.modaloverlay);
 			}

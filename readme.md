@@ -32,8 +32,8 @@ include the script located on the `dist` folder
 
 Now, you need to instantiate it passing some 'options', and open it
 ```javascript
-var modal = new ConfirmModal(options);
-modal.open();
+let modal = new ConfirmModal(options)
+modal.open()
 ```
 
 #### Options
@@ -77,6 +77,12 @@ When onProceed callback is called, the 'this' is the instance of the ConfirmModa
 onProceed: function(e) {
 	console.log(this.promptvalue)
 }
+```
+
+#### Close the confirm modal programmatically
+
+```javascript
+modal.close()
 ```
 
 ## Example

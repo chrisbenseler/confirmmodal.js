@@ -136,7 +136,7 @@ class ConfirmModal {
 			}
 			if(this.callbacks[type])
 				this.callbacks[type].call(this, e)
-			this._closeMe()
+			this.close()
 		}
 
 		if(this.buttons.proceed) {
@@ -151,7 +151,7 @@ class ConfirmModal {
 	/**
 	 * Close confirm
 	 */
-	_closeMe() {
+	close() {
 		this.modalcontainer.parentNode.removeChild(this.modalcontainer)
 		this.modaloverlay.parentNode.removeChild(this.modaloverlay)
 	}
