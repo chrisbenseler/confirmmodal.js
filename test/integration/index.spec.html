@@ -26,6 +26,13 @@
 			}
 		})
 
+		var prompt_confirm = new ConfirmModal({
+			prompt: {
+				enabled: true,
+				required: false
+			}
+		})
+
 		window.onload = function() {
 			document.getElementById("thisbtn").onclick = function(event) {
 				confirm.open();
@@ -35,7 +42,10 @@
 				nobtns_confirm.open();
 				event.preventDefault();
 			}
-
+			document.getElementById("thisbtnprompt").onclick = function(event) {
+				prompt_confirm.open();
+				event.preventDefault();
+			}
 		}
 	</script>
 
@@ -43,5 +53,6 @@
 <body>
 <button id="thisbtn">Open modal</button>
 <button id="thisbtnnobuttons">Open modal no buttons</button>
+<button id="thisbtnprompt">Open modal with promot</button>
 </body>
 </html>

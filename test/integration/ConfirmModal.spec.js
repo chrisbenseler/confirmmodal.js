@@ -26,7 +26,21 @@ describe('ConfirmModal.js html test page', () => {
 		expect(browser.isExisting("#mm-confirmmodal")).to.be.false
 	})
 
-	it('should open new modal without buttons', () => {
+	it('should open new modal with prompt', () => {
+		browser.click('#thisbtnprompt')
+	})
+
+	it('should have textarea for user prompt', () => {
+		expect(browser.isExisting('#mm-confirmmodal textarea')).to.be.true
+	})
+
+	it('should fill textarea and return value', () => {
+		browser.setValue('#mm-confirmmodal textarea', 'sample text')
+		browser.click('.btn.btn-primary')
+		expect(browser.execute('return prompt_confirm.promptvalue').value).to.be.equal('sample text')
+	})
+
+	it('should open new modal without buttons', () => {	
 		browser.click('#thisbtnnobuttons')
 	})
 	
@@ -37,4 +51,5 @@ describe('ConfirmModal.js html test page', () => {
 	it('should not have cancel button', () => {
 		expect(browser.isExisting('.btn.btn-danger')).to.be.false
 	})
+
 })
