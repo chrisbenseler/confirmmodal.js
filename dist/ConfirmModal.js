@@ -141,8 +141,6 @@
 			value: function _handlers() {
 
 				function handle_btn(type) {
-					console.log(this);
-					console.log(type);
 
 					if (type == 'onProceed') {
 						if (this.prompt.enabled && !document.querySelector("#" + this.ids.container + " form").checkValidity()) return false;
