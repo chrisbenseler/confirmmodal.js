@@ -125,8 +125,9 @@ class ConfirmModal {
 	 */
 	_handlers() {
 
-		function handle_btn(e, type) {
-			e.preventDefault()
+		function handle_btn(type) {
+			console.log(this)
+			console.log(type)
 
 			if(type == 'onProceed') {
 				if (this.prompt.enabled && !document.querySelector(`#${this.ids.container} form`).checkValidity())
@@ -135,16 +136,16 @@ class ConfirmModal {
 					this.promptvalue = document.querySelector(`#${this.ids.container} form textarea`).value
 			}
 			if(this.callbacks[type])
-				this.callbacks[type].call(this, e)
+				this.callbacks[type].call(this)
 			this.close()
 		}
 
 		if(this.buttons.proceed) {
-			this.proceed.onclick = handle_btn.call(this, event, 'onProceed')
+			this.proceed.onclick = handle_btn.bind(this, 'onProceed')
 		}
 
 		if(this.buttons.cancel) {
-			this.cancel.onclick = handle_btn.call(this, event, 'onCancel')
+			this.cancel.onclick = handle_btn.bind(this, 'onCancel')
 		}
 	}
 
