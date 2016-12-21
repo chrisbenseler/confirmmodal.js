@@ -140,11 +140,11 @@ class ConfirmModal {
 		}
 
 		if(this.buttons.proceed) {
-			this.proceed.onclick = handle_btn.bind(this, event, 'onProceed')
+			this.proceed.onclick = handle_btn.call(this, event, 'onProceed')
 		}
 
 		if(this.buttons.cancel) {
-			this.cancel.onclick = handle_btn.bind(this, event, 'onCancel')
+			this.cancel.onclick = handle_btn.call(this, event, 'onCancel')
 		}
 	}
 
