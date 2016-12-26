@@ -14,11 +14,12 @@
 				enabled: true,
 				required: true
 			},
-			onProceed: function(e) {
+			onProceed: function() {
 				console.log(this.promptvalue)
 				console.log('Callback onProceed');
 			},
-			onCancel: function(e) {
+			onCancel: function() {
+				console.log(e)
 				console.log('Callback onCancel');
 			}
 		});
