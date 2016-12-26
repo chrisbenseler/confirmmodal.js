@@ -52,8 +52,8 @@ var options = { messages: {
 				proceed: "ok",
 				cancel: "cancelar"
 			},
-			onProceed: function(e) {
-				console.log(e);
+			onProceed: function() {
+				console.log('ok clicked');
 			},
 			cssclasses: {
 				btn_cancel: "btn any-class", //default is 'btn btn-danger'
@@ -74,7 +74,7 @@ var options = { messages: {
 
 When onProceed callback is called, the 'this' is the instance of the ConfirmModal. If prompt is enabled, the value filled by in the modal can be retrieved using the 'promptvalue' attribute, as follows:
 ```javascript
-onProceed: function(e) {
+onProceed: function() {
 	console.log(this.promptvalue)
 }
 ```

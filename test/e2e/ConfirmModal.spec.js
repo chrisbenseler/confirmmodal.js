@@ -34,6 +34,10 @@ describe('ConfirmModal.js html test page', () => {
 		expect(browser.isExisting('#mm-confirmmodal textarea')).to.be.true
 	})
 
+	it('should have required in textarea', () => {
+		expect(browser.getAttribute('#mm-confirmmodal textarea', 'required')).to.be.not.null
+	})
+
 	it('should fill textarea and return value', () => {
 		browser.setValue('#mm-confirmmodal textarea', 'sample text')
 		browser.click('.btn.btn-primary')
