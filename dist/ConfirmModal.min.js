@@ -1,5 +1,5 @@
 /*!
- * confirmmodal.js v1.1.6
+ * confirmmodal.js v1.1.7
  * https://github.com/chrisbenseler/confirmmodal.js#readme
  *
  * Licensed Apache 2.0 © Christian Benseler
