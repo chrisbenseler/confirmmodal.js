@@ -1,5 +1,5 @@
 /*!
- * confirmmodal.js v1.1.7
+ * confirmmodal.js v2.0.0
  * https://github.com/chrisbenseler/confirmmodal.js#readme
  *
  * Licensed Apache 2.0 © Christian Benseler
@@ -7,7 +7,7 @@
  (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ConfirmModal = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
-		define(["module"], factory);
+		define(['module'], factory);
 	} else if (typeof exports !== "undefined") {
 		factory(module);
 	} else {
@@ -44,6 +44,30 @@
 		};
 	}();
 
+	var PubSub = function () {
+		function PubSub() {
+			_classCallCheck(this, PubSub);
+
+			this.subscriptions = {};
+		}
+
+		_createClass(PubSub, [{
+			key: 'subscribe',
+			value: function subscribe(key, fn) {
+				this.subscriptions[key] = fn;
+			}
+		}, {
+			key: 'publish',
+			value: function publish(key, parameters) {
+				if (this.subscriptions[key]) {
+					this.subscriptions[key](parameters);
+				}
+			}
+		}]);
+
+		return PubSub;
+	}();
+
 	var ConfirmModal = function () {
 
 		/**
@@ -52,11 +76,13 @@
 		function ConfirmModal(opts) {
 			_classCallCheck(this, ConfirmModal);
 
+			this.pubSub = new PubSub();
+			this.events = { 'proceed': null, 'cancel': null };
 			this._resolveOptions(opts);
 		}
 
 		_createClass(ConfirmModal, [{
-			key: "_resolveOptions",
+			key: '_resolveOptions',
 			value: function _resolveOptions() {
 				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -104,31 +130,33 @@
 				};
 			}
 		}, {
-			key: "open",
+			key: 'open',
 			value: function open() {
+				var _this = this;
+
 				if (!document.getElementById(this.ids.container)) {
 
 					var prompt = '';
 					if (this.prompt.enabled) {
 						prompt = '<form>';
-						if (this.prompt.required) prompt += "<textarea class='form-control' required></textarea>";else prompt += "<textarea class='form-control'></textarea>";
+						if (this.prompt.required) prompt += '<textarea class=\'form-control\' required></textarea>';else prompt += '<textarea class=\'form-control\'></textarea>';
 						prompt += '</form>';
 					}
 
 					var d = document.createElement("div"),
-					    html = "<div id='" + this.ids.container + "'>\n\t\t\t\t\t\t\t\t<div id='" + this.ids.container + "-content'>\n\t\t\t\t\t\t\t\t\t<h2>" + this.messages.title + "</h2>\n\t\t\t\t\t\t\t\t\t<p>" + this.messages.desc + "</p>\n\t\t\t\t\t\t\t\t\t" + prompt + "\n\t\t\t\t\t\t\t\t\t<footer>";
+					    html = '<div id=\'' + this.ids.container + '\'>\n\t\t\t\t\t\t\t\t<div id=\'' + this.ids.container + '-content\'>\n\t\t\t\t\t\t\t\t\t<h2>' + this.messages.title + '</h2>\n\t\t\t\t\t\t\t\t\t<p>' + this.messages.desc + '</p>\n\t\t\t\t\t\t\t\t\t' + prompt + '\n\t\t\t\t\t\t\t\t\t<footer>';
 
-					if (this.buttons.cancel) html += "<button class=\"" + this.cssclasses.btn_cancel + "\" id=\"" + this.ids.btn_cancel + "\">" + this.messages.cancel + "</button>";
+					if (this.buttons.cancel) html += '<button class="' + this.cssclasses.btn_cancel + '" id="' + this.ids.btn_cancel + '">' + this.messages.cancel + '</button>';
 
-					if (this.buttons.proceed) html += "<button class=\"" + this.cssclasses.btn_proceed + "\" id=\"" + this.ids.btn_proceed + "\">" + this.messages.proceed + "</button>";
+					if (this.buttons.proceed) html += '<button class="' + this.cssclasses.btn_proceed + '" id="' + this.ids.btn_proceed + '">' + this.messages.proceed + '</button>';
 
-					html += "\t\t\t\t\t\t</footer>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t  </div>";
+					html += '\t\t\t\t\t\t</footer>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t  </div>';
 
 					d.innerHTML = html;
 					document.body.appendChild(d);
 
 					var doverlay = document.createElement("div");
-					doverlay.innerHTML = "<div id='" + this.ids.overlay + "'></div>";
+					doverlay.innerHTML = '<div id=\'' + this.ids.overlay + '\'></div>';
 					document.body.appendChild(doverlay);
 				}
 
@@ -141,18 +169,30 @@
 					this.cancel = document.getElementById(this.ids.btn_cancel);
 				}
 				this._handlers();
+
+				return new Promise(function (resolve, reject) {
+					_this.pubSub.subscribe('proceed', function () {
+						resolve(_this);
+					});
+					_this.pubSub.subscribe('cancel', function () {
+						reject(_this);
+					});
+				});
 			}
 		}, {
-			key: "_handlers",
+			key: '_handlers',
 			value: function _handlers() {
 
 				function handle_btn(type) {
 
 					if (type == 'onProceed') {
-						if (this.prompt.enabled && !document.querySelector("#" + this.ids.container + " form").checkValidity()) return false;
-						if (this.prompt.enabled) this.promptvalue = document.querySelector("#" + this.ids.container + " form textarea").value;
+						if (this.prompt.enabled && !document.querySelector('#' + this.ids.container + ' form').checkValidity()) return false;
+						if (this.prompt.enabled) this.promptvalue = document.querySelector('#' + this.ids.container + ' form textarea').value;
 					}
 					if (this.callbacks[type]) this.callbacks[type].call(this);
+
+					if (type == 'onProceed') this.pubSub.publish('proceed', this);else if (type == 'onCancel') this.pubSub.publish('cancel', this);
+
 					this.close();
 				}
 
@@ -165,13 +205,13 @@
 				}
 			}
 		}, {
-			key: "close",
+			key: 'close',
 			value: function close() {
 				this.modalcontainer.parentNode.removeChild(this.modalcontainer);
 				this.modaloverlay.parentNode.removeChild(this.modaloverlay);
 			}
 		}, {
-			key: "promptvalue",
+			key: 'promptvalue',
 			get: function get() {
 				return this.prompt.value;
 			},

@@ -85,6 +85,9 @@ onProceed: function() {
 modal.close()
 ```
 
+#### Use Promises
+TODO
+
 ## Example
 Checkout the examples/ folder for with samples
 TODO: online examples

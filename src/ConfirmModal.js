@@ -1,11 +1,31 @@
 'use strict'
 
+class PubSub {
+	constructor() {
+		this.subscriptions = {}
+	}
+
+	subscribe(key, fn) {
+		this.subscriptions[key] = fn
+	}
+
+	publish(key, parameters) {
+		if(this.subscriptions[key]) {
+			this.subscriptions[key](parameters)
+		}
+	}
+
+}
+
+
 class ConfirmModal {
 
 	/**
      * @param {Object} options
      */
 	constructor(opts) {
+		this.pubSub = new PubSub()
+		this.events = { 'proceed': null, 'cancel': null}
 		this._resolveOptions(opts)
 	}
 
@@ -18,7 +38,7 @@ class ConfirmModal {
 	}
 
 	/**
-	 * Overrides or not default configuration with user proveided options
+	 * Overrides or not default configuration with user provided options
 	 * @param {Object} options
 	 */
 	_resolveOptions(options = {}) {
@@ -118,6 +138,15 @@ class ConfirmModal {
 			this.cancel = document.getElementById(this.ids.btn_cancel)
 		}
 		this._handlers()
+
+		return new Promise( (resolve, reject) => {
+			this.pubSub.subscribe('proceed', () => {
+				resolve(this)
+			})
+			this.pubSub.subscribe('cancel', () => {
+				reject(this)
+			})
+		})
 	}
 
 	/**
@@ -135,6 +164,12 @@ class ConfirmModal {
 			}
 			if(this.callbacks[type])
 				this.callbacks[type].call(this)
+			
+			if(type == 'onProceed')
+				this.pubSub.publish('proceed', this)
+			else if(type == 'onCancel')
+				this.pubSub.publish('cancel', this)
+			
 			this.close()
 		}
 
