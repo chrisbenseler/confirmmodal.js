@@ -82,6 +82,22 @@ describe('ConfirmModal (unit)', () => {
 		})
 	})
 
+	describe('when not passed function to callback', () => {
+		
+		let modal = new ConfirmModal({
+			onProceed: 1,
+			onCancel: Symbol()
+		})
+
+		it('onProceed should not have been changed', () => {
+			expect(modal.callbacks.onProceed).to.be.null
+		})
+
+		it('onCancel should not have been changed', () => {
+			expect(modal.callbacks.onCancel).to.be.null
+		})
+	})
+
 	describe('when passed prefix to ids', () => {
 		
 		let modal = new ConfirmModal({
