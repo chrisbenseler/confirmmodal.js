@@ -15,18 +15,20 @@
 				desc: "Description goes here",
 				proceed: "Ok",
 				cancel: "Cancel"
-			},
-			onProceed: function() {
-				console.log('Callback onProceed');
-			},
-			onCancel: function() {
-				console.log('Callback onCancel');
 			}
 		});
 
 		window.onload = function() {
 			document.getElementById("thisbtn").onclick = function(event) {
-				confirm.open();
+				confirm
+				.open()
+				.then( function(c) {
+					console.log('Resolved, button proceed licked')
+				})
+				.catch( function(c) {
+					console.log('Rejected, button cancel clicked')
+				})
+				
 			}
 		}
 	</script>
