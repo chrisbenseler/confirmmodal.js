@@ -1,93 +1,91 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ConfirmModal = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*!
+ * confirmmodal.js v2.0.1
+ * https://github.com/chrisbenseler/confirmmodal.js#readme
+ *
+ * Licensed Apache 2.0 © Christian Benseler
+ */
+ (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ConfirmModal = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
-		define(["module", "exports"], factory);
+		define(['module'], factory);
 	} else if (typeof exports !== "undefined") {
-		factory(module, exports);
+		factory(module);
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod, mod.exports);
+		factory(mod);
 		global.ConfirmModal = mod.exports;
 	}
-})(this, function (module, exports) {
-	"use strict";
+})(this, function (module) {
+	'use strict';
 
-	(function (global, factory) {
-		if (typeof define === "function" && define.amd) {
-			define(['module'], factory);
-		} else if (typeof exports !== "undefined") {
-			factory(module);
-		} else {
-			var mod = {
-				exports: {}
-			};
-			factory(mod);
-			global.ConfirmModal = mod.exports;
+	function _classCallCheck(instance, Constructor) {
+		if (!(instance instanceof Constructor)) {
+			throw new TypeError("Cannot call a class as a function");
 		}
-	})(undefined, function (module) {
-		'use strict';
+	}
 
-		var _createClass = function () {
-			function defineProperties(target, props) {
-				for (var i = 0; i < props.length; i++) {
-					var descriptor = props[i];
-					descriptor.enumerable = descriptor.enumerable || false;
-					descriptor.configurable = true;
-					if ("value" in descriptor) descriptor.writable = true;
-					Object.defineProperty(target, descriptor.key, descriptor);
-				}
-			}
-
-			return function (Constructor, protoProps, staticProps) {
-				if (protoProps) defineProperties(Constructor.prototype, protoProps);
-				if (staticProps) defineProperties(Constructor, staticProps);
-				return Constructor;
-			};
-		}();
-
-		function _classCallCheck(instance, Constructor) {
-			if (!(instance instanceof Constructor)) {
-				throw new TypeError("Cannot call a class as a function");
+	var _createClass = function () {
+		function defineProperties(target, props) {
+			for (var i = 0; i < props.length; i++) {
+				var descriptor = props[i];
+				descriptor.enumerable = descriptor.enumerable || false;
+				descriptor.configurable = true;
+				if ("value" in descriptor) descriptor.writable = true;
+				Object.defineProperty(target, descriptor.key, descriptor);
 			}
 		}
 
-		var PubSub = function () {
-			function PubSub() {
-				_classCallCheck(this, PubSub);
+		return function (Constructor, protoProps, staticProps) {
+			if (protoProps) defineProperties(Constructor.prototype, protoProps);
+			if (staticProps) defineProperties(Constructor, staticProps);
+			return Constructor;
+		};
+	}();
 
-				this.subscriptions = {};
-			}
+	var PubSub = function () {
+		function PubSub() {
+			_classCallCheck(this, PubSub);
 
-			PubSub.prototype.subscribe = function subscribe(key, fn) {
+			this.subscriptions = {};
+		}
+
+		_createClass(PubSub, [{
+			key: 'subscribe',
+			value: function subscribe(key, fn) {
 				this.subscriptions[key] = fn;
-			};
-
-			PubSub.prototype.publish = function publish(key, parameters) {
+			}
+		}, {
+			key: 'publish',
+			value: function publish(key, parameters) {
 				if (this.subscriptions[key]) {
 					this.subscriptions[key](parameters);
 				}
-			};
-
-			return PubSub;
-		}();
-
-		var ConfirmModal = function () {
-
-			/**
-       * @param {Object} options
-       */
-			function ConfirmModal(opts) {
-				_classCallCheck(this, ConfirmModal);
-
-				this.pubSub = new PubSub();
-				this.events = { 'proceed': null, 'cancel': null };
-				this._resolveOptions(opts);
 			}
+		}]);
 
-			ConfirmModal.prototype._resolveOptions = function _resolveOptions() {
+		return PubSub;
+	}();
+
+	var ConfirmModal = function () {
+
+		/**
+      * @param {Object} options
+      */
+		function ConfirmModal(opts) {
+			_classCallCheck(this, ConfirmModal);
+
+			this.pubSub = new PubSub();
+			this.events = { 'proceed': null, 'cancel': null };
+			this._resolveOptions(opts);
+		}
+
+		_createClass(ConfirmModal, [{
+			key: '_resolveOptions',
+			value: function _resolveOptions() {
 				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
 
 				var prefix = options.id_prefix ? options.id_prefix : "mm-confirmmodal";
 
@@ -130,9 +128,10 @@
 					required: typeof prompt.required === 'boolean' ? prompt.required : false,
 					value: null
 				};
-			};
-
-			ConfirmModal.prototype.open = function open() {
+			}
+		}, {
+			key: 'open',
+			value: function open() {
 				if (!document.getElementById(this.ids.container)) {
 
 					var prompt = '';
@@ -170,19 +169,23 @@
 				this._handlers();
 
 				return this;
-			};
-
-			ConfirmModal.prototype.on = function on(event_name) {
+			}
+		}, {
+			key: 'on',
+			value: function on(event_name) {
 				var _this = this;
 
-				return new Promise(function (resolve, reject) {
+				if (['proceed', 'cancel'].indexOf(event_name) < 0) return null;
+
+				return new Promise(function (resolve) {
 					_this.pubSub.subscribe(event_name, function () {
 						resolve(_this);
 					});
 				});
-			};
-
-			ConfirmModal.prototype._handlers = function _handlers() {
+			}
+		}, {
+			key: '_handlers',
+			value: function _handlers() {
 
 				function handle_btn(type) {
 
@@ -204,28 +207,27 @@
 				if (this.buttons.cancel) {
 					this.cancel.onclick = handle_btn.bind(this, 'onCancel');
 				}
-			};
-
-			ConfirmModal.prototype.close = function close() {
+			}
+		}, {
+			key: 'close',
+			value: function close() {
 				this.modalcontainer.parentNode.removeChild(this.modalcontainer);
 				this.modaloverlay.parentNode.removeChild(this.modaloverlay);
-			};
+			}
+		}, {
+			key: 'promptvalue',
+			get: function get() {
+				return this.prompt.value;
+			},
+			set: function set(value) {
+				this.prompt.value = value;
+			}
+		}]);
 
-			_createClass(ConfirmModal, [{
-				key: 'promptvalue',
-				get: function get() {
-					return this.prompt.value;
-				},
-				set: function set(value) {
-					this.prompt.value = value;
-				}
-			}]);
+		return ConfirmModal;
+	}();
 
-			return ConfirmModal;
-		}();
-
-		module.exports = ConfirmModal;
-	});
+	module.exports = ConfirmModal;
 });
 
 },{}]},{},[1])(1)

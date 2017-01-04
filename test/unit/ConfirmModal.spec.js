@@ -135,6 +135,21 @@ describe('ConfirmModal (unit)', () => {
 		})
 	})
 
+	describe('when use promise', () => {
+
+		let p_modal = new ConfirmModal()
+		it('should have a promise for proceed event', () => {
+			expect(p_modal.on('proceed')).to.be.a('promise')
+		})
+		it('should have a promise for cancel event', () => {
+			expect(p_modal.on('cancel')).to.be.a('promise')
+		})
+		it('should not have a promise for other event', () => {
+			expect(p_modal.on('proc')).to.be.null
+		})
+		
+	})
+
 	afterEach(() => {
 		nock.cleanAll()
 	})
