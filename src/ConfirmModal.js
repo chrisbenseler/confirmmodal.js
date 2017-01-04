@@ -143,6 +143,10 @@ class ConfirmModal {
 	}
 
 	on(event_name) {
+
+		if(['proceed', 'cancel'].indexOf(event_name) < 0)
+			return null
+
 		return new Promise( (resolve) => {
 			this.pubSub.subscribe(event_name, () => {
 				resolve(this)
