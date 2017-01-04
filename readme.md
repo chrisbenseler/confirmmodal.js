@@ -72,10 +72,10 @@ var options = { messages: {
 
 #### onProceed callback
 
-When onProceed callback is called, the 'this' is the instance of the ConfirmModal. If prompt is enabled, the value filled by in the modal can be retrieved using the 'promptvalue' attribute, as follows:
+When onProceed callback is called, the instance of the ConfirmModal is passed as the argument to it. If prompt is enabled, the value filled by in the modal can be retrieved using the 'promptvalue' attribute, as follows:
 ```javascript
-onProceed: function() {
-	console.log(this.promptvalue)
+onProceed: function(my_modal) {
+	console.log(my_modal.promptvalue)
 }
 ```
 
@@ -85,17 +85,20 @@ onProceed: function() {
 modal.close()
 ```
 
-#### Use Promises
-The open() method returns a promise, which is resolved when the user clicks on the proceed button and is rejected when the user clicks on the cancel button.
+#### Events
+The ConfirmModal object has 2 events: proceed and cancel. Both return a promise, which are resolved when user clicks in one of the buttons.
 
 ```javascript
 confirm
-.open()
-.then( function(c) {
+.on('proceed')
+.then( function(my_modal) {
 	console.log('Resolved, button proceed licked')
 })
-.catch( function(c) {
-	console.log('Rejected, button cancel clicked')
+
+confirm
+.on('cancel')
+.then( function(my_modal) {
+	console.log('Resolved, button proceed licked')
 })
 ```
 Check the promises.html in the examples/ folder

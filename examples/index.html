@@ -16,11 +16,11 @@
 				proceed: "Ok",
 				cancel: "Cancel"
 			},
-			onProceed: function() {
-				console.log('Callback onProceed');
+			onProceed: function(c) {
+				console.log('Callback onProceed', c);
 			},
-			onCancel: function() {
-				console.log('Callback onCancel');
+			onCancel: function(c) {
+				console.log('Callback onCancel', c);
 			}
 		});
 

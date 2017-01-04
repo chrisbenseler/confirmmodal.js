@@ -139,12 +139,13 @@ class ConfirmModal {
 		}
 		this._handlers()
 
-		return new Promise( (resolve, reject) => {
-			this.pubSub.subscribe('proceed', () => {
+		return this
+	}
+
+	on(event_name) {
+		return new Promise( (resolve) => {
+			this.pubSub.subscribe(event_name, () => {
 				resolve(this)
-			})
-			this.pubSub.subscribe('cancel', () => {
-				reject(this)
 			})
 		})
 	}
@@ -163,7 +164,7 @@ class ConfirmModal {
 					this.promptvalue = document.querySelector(`#${this.ids.container} form textarea`).value
 			}
 			if(this.callbacks[type])
-				this.callbacks[type].call(this)
+				this.callbacks[type](this)
 			
 			if(type == 'onProceed')
 				this.pubSub.publish('proceed', this)
