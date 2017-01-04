@@ -22,11 +22,17 @@
 			document.getElementById("thisbtn").onclick = function(event) {
 				confirm
 				.open()
+				
+				confirm
+				.on('proceed')
 				.then( function(c) {
-					console.log('Resolved, button proceed licked')
+					console.log('Proceed button clicked', c)
 				})
-				.catch( function(c) {
-					console.log('Rejected, button cancel clicked')
+				
+				confirm
+				.on('cancel')
+				.then( function(c) {
+					console.log('Cancel button clicked', c)
 				})
 				
 			}
