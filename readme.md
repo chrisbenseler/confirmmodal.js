@@ -86,7 +86,19 @@ modal.close()
 ```
 
 #### Use Promises
-TODO
+The open() method returns a promise, which is resolved when the user clicks on the proceed button and is rejected when the user clicks on the cancel button.
+
+```javascript
+confirm
+.open()
+.then( function(c) {
+	console.log('Resolved, button proceed licked')
+})
+.catch( function(c) {
+	console.log('Rejected, button cancel clicked')
+})
+```
+Check the promises.html in the examples/ folder
 
 ## Example
 Checkout the examples/ folder for with samples
