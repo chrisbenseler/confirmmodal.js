@@ -92,13 +92,13 @@ The ConfirmModal object has 2 events: _proceed_ and _cancel_. Both return a prom
 confirm
 .on('proceed')
 .then( function(my_modal) {
-	console.log('Resolved, button proceed licked')
+	console.log('Resolved, button proceed clicked')
 })
 
 confirm
 .on('cancel')
 .then( function(my_modal) {
-	console.log('Resolved, button proceed licked')
+	console.log('Resolved, button proceed clicked')
 })
 ```
 Check the promises.html in the examples/ folder
