@@ -86,7 +86,7 @@ modal.close()
 ```
 
 #### Events
-The ConfirmModal object has 2 events: proceed and cancel. Both return a promise, which are resolved when user clicks in one of the buttons.
+The ConfirmModal object has 2 events: _proceed_ and _cancel_. Both return a promise, which are resolved when user clicks in one of the buttons.
 
 ```javascript
 confirm
@@ -111,16 +111,16 @@ TODO: online examples
 
 ### Unit
 
-Specs are under test/unit/ path
+Specs are under _test/unit/_ path
 
 Run
 ```
 npm run test-unit
 ```
 
-### Integration
+### e2e
 
-Specs are under test/integration/ path. They use Webdriver.io to control a browser and automatize tests
+Specs are under _test/e2e/_ path. They use Webdriver.io to control a browser and automatize tests
 Install [selenium-standalone](https://www.npmjs.com/package/selenium-standalone) as npm package and start it
 ```
 npm install selenium-standalone@latest -g
@@ -130,7 +130,13 @@ selenium-standalone start
 
 Run
 ```
-npm run test-integration
+npm run test-e2e
 ```
 
 All definitions are set in wdio.conf.js
+
+### Both unit and e2e
+To run _unit_ and _e2e_ tests
+```
+npm run test
+```
