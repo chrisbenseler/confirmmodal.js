@@ -11,7 +11,8 @@
     "test": "npm run lint && npm run test-unit && npm run test-e2e",
     "test-unit": "mocha --compilers js:babel-core/register test/unit/**/*.spec.js",
     "test-e2e": "wdio wdio.conf.js",
-    "lint": "eslint src/ConfirmModal.js"
+    "lint": "eslint src/ConfirmModal.js",
+    "ghpages": "cp dist/ConfirmModal.js examples/ && git subtree push --prefix examples origin gh-pages"
   },
   "repository": {
     "type": "git",
