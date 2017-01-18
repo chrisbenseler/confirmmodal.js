@@ -103,9 +103,8 @@ confirm
 ```
 Check the promises.html in the examples/ folder
 
-## Example
-Checkout the examples/ folder for with samples
-TODO: online examples
+## Examples
+Checkout the examples/ folder for with samples or the [official page of the project](https://chrisbenseler.github.io/confirmmodal.js) with links
 
 ## Tests
 
