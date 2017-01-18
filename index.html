@@ -2,37 +2,48 @@
 <html>
 <meta charset="UTF-8">
 <head>
-	<title>ConfirmModal.js Example</title>
-
-	<link rel="stylesheet" type="text/css" href="style.css">
-
-	<script type="text/javascript" src="ConfirmModal.js"></script>
-	<script type="text/javascript">
-
-		var confirm = new ConfirmModal({
-			messages: {
-				title: "The title!",
-				desc: "Description goes here",
-				proceed: "Ok",
-				cancel: "Cancel"
-			},
-			onProceed: function(c) {
-				console.log('Callback onProceed', c);
-			},
-			onCancel: function(c) {
-				console.log('Callback onCancel', c);
-			}
-		});
-
-		window.onload = function() {
-			document.getElementById("thisbtn").onclick = function(event) {
-				confirm.open();
-			}
-		}
-	</script>
-
+	<title>ConfirmModal.js</title>
+	<script type='text/javascript' src='assets/javascript/prettify.js'></script>
+	<link rel='stylesheet' type='text/css' href='assets/css/skeleton/stylesheets/base.css' />
+	<link rel='stylesheet' type='text/css' href='assets/css/skeleton/stylesheets/skeleton.css' />
+	<link rel='stylesheet' type='text/css' href='assets/css/prettify.css' />
+	<link rel='stylesheet' type='text/css' href='assets/css/style.css' />
 </head>
-<body>
-<button id="thisbtn">Open modal</button>
+<body onload='prettyPrint()'>
+
+<div class="container">
+	<header class='sixteen columns'>
+		<div class='nine columns alpha'>
+			<h1>ConfirmModal.js</h1>
+			<h2>Modern Confirm Modal javascript module for browsers, standalone instalation. No libs/frameworks (jQuery, Bootstrap, etc...) required</h2>
+		</div>
+		<div class='six columns offset-by-one omega'>
+			<a href='https://github.com/chrisbenseler/confirmmodal.js/zipball/master' class='download-button'>
+				Download
+				<span>Latest version from GitHub</span>
+			</a>
+		</div>
+	</header>
+
+	<div class='sixteen columns'>
+		<h3>Usage</h3>
+		<ul>
+			<li><a href="default.html" title='Default' target='_blank'>Default usage</a></li>
+			<li><a href="prompt.html" title='User prompt' target='_blank'>User prompt</a></li>
+			<li><a href="promises.html" title='Promises' target='_blank'>Promises</a></li>
+		</ul>
+
+	</div>
+</div>
+
+<footer>
+	<div class='container'>
+		<div class='sixteen columns credits'>
+			<p>GitHub release template built with HTML5, CSS3 and JS by <a href='http://fublo.net'>Fublo</a></p>
+		</div>
+	</div>
+</footer>
+
+<a href='https://github.com/chrisbenseler/confirmmodal.js' class='github-ribbon'><img src='assets/images/github-ribbons/red.png' /></a>
 </body>
 </html>
