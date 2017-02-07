@@ -3,6 +3,7 @@
 import chai from 'chai'
 import nock from 'nock'
 import ConfirmModal from '../../src/ConfirmModal.js'
+import jsdom from 'mocha-jsdom'
 
 let expect = chai.expect
 
@@ -165,6 +166,24 @@ describe('ConfirmModal (unit)', () => {
 		})
 		
 	})
+
+	jsdom()
+
+	describe('close', () => {
+		let p_modal = new ConfirmModal()
+		it('should not close if is not opened', () => {
+			let e = p_modal.close()
+			expect(e instanceof Error).to.be.true
+		})
+		it('should close', () => {
+			p_modal.open()
+			expect(document.querySelector('#mm-confirmmodal')).to.be.not.null
+			p_modal.close()
+			expect(document.querySelector('#mm-confirmmodal')).to.be.null
+		})
+	})
+
+	
 
 	afterEach(() => {
 		nock.cleanAll()

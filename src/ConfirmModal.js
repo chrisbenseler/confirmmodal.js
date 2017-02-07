@@ -191,6 +191,9 @@ class ConfirmModal {
 	 * Close confirm
 	 */
 	close() {
+		if(!this.modalcontainer && !this.modaloverlay) {
+			return new Error('Confirm Modal seems to be not opened')
+		}
 		this.modalcontainer.parentNode.removeChild(this.modalcontainer)
 		this.modaloverlay.parentNode.removeChild(this.modaloverlay)
 	}

@@ -2,3 +2,6 @@ sudo: false
 language: node_js
 node_js:
   - '6'
+after_script:
+  - npm install -g coveralls
+  - coveralls < coverage/lcov.info
