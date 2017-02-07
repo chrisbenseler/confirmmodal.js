@@ -1,11 +1,15 @@
-[![Build Status](https://travis-ci.org/chrisbenseler/confirmmodal.js.svg?branch=master)](https://travis-ci.org/chrisbenseler/confirmmodal.js)
-
+<p align="center">
+<a href="https://travis-ci.org/chrisbenseler/confirmmodal.js">
+    <img src="https://api.travis-ci.org/chrisbenseler/confirmmodal.js.svg?branch=master">
+  </a>
 <a href="https://www.npmjs.com/package/confirmmodal.js">
-<img src="https://badge.fury.io/js/confirmmodal.js.svg">
+<img src="https://badge.fury.io/js/confirmmodal.js.svg" />
 </a>
 <a href="https://coveralls.io/github/chrisbenseler/confirmmodal.js?branch=master">
 <img src="https://coveralls.io/repos/github/chrisbenseler/confirmmodal.js/badge.svg?branch=master">
 </a>
+</p>
+
 # ConfirmModal.js
 
 > Modern Confirm Modal javascript module for browsers, standalone instalation. No libs/frameworks (jQuery, Bootstrap, etc...) required
