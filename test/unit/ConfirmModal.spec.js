@@ -9,6 +9,8 @@ let expect = chai.expect
 
 describe('ConfirmModal (unit)', () => {
 
+	jsdom()
+
 	describe('when imported', () => {
 		it('should return a Function', () => {
 			expect(ConfirmModal).to.be.an('function')
@@ -146,9 +148,23 @@ describe('ConfirmModal (unit)', () => {
 		
 		it('should have textarea', () => {
 			expect(new_modal.prompt.enabled).to.be.true
+			new_modal.open()
+			expect(document.querySelector('#mm-confirmmodal form')).to.be.not.null
+			expect(document.querySelector('#mm-confirmmodal form textarea').getAttribute('required')).to.be.not.null
 		})
 		it('should not have cancel button', () => {
 			expect(new_modal.prompt.required).to.be.true
+		})
+		it('should have get/set for prompt value', () => {
+			new_modal.promptvalue = 3
+			expect(new_modal.promptvalue).to.be.equals(3)
+			new_modal.close()
+		})
+		
+		let o_new_modal = new ConfirmModal({ prompt: { enabled: true, required: false } });
+		it('should have textarea not required', () => {
+			o_new_modal.open()
+			expect(document.querySelector('#mm-confirmmodal form textarea').getAttribute('required')).to.be.null
 		})
 	})
 
@@ -167,10 +183,17 @@ describe('ConfirmModal (unit)', () => {
 		
 	})
 
-	jsdom()
+	
+
+	let options = {
+		prompt: {
+			enabled: true,
+			required: true
+		}
+	}
 
 	describe('close', () => {
-		let p_modal = new ConfirmModal()
+		let p_modal = new ConfirmModal(options)
 		it('should not close if is not opened', () => {
 			let e = p_modal.close()
 			expect(e instanceof Error).to.be.true
