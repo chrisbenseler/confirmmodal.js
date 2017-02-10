@@ -206,6 +206,24 @@ describe('ConfirmModal (unit)', () => {
 		})
 	})
 
+	describe('inner pubsub', () => {
+		let modal = new ConfirmModal()
+		expect(modal.pubSub).to.be.an('object')
+		expect(modal.pubSub.subscriptions instanceof Object).to.be.true
+
+		it('should subscribe', () => {
+			modal.pubSub.subscribe('key one', function() { return true })
+			expect(modal.pubSub.subscriptions['key one']).to.be.an('function')
+		})
+
+		it('should publish', () => {
+			modal.pubSub.subscribe('key two', function(random_data) { 
+				expect(25).to.be.equals(random_data)
+			})
+			modal.pubSub.publish('key two', 25)
+		})
+	})
+
 	
 
 	afterEach(() => {
