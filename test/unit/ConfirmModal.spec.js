@@ -183,8 +183,6 @@ describe('ConfirmModal (unit)', () => {
 		
 	})
 
-	
-
 	let options = {
 		prompt: {
 			enabled: true,
