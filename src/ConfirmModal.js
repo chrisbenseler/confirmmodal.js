@@ -43,7 +43,7 @@ class ConfirmModal {
 	 */
 	_resolveOptions(options = {}) {
 
-		let prefix = options.id_prefix ? options.id_prefix : "mm-confirmmodal"
+		const prefix = options.id_prefix ? options.id_prefix : "mm-confirmmodal"
 
 		this.ids = {
 			btn_cancel:  prefix + "-cancel",
@@ -52,14 +52,14 @@ class ConfirmModal {
 			overlay: prefix + "-overlay"
 		}
 
-		let cssclasses = options.cssclasses ? options.cssclasses : {}
+		const cssclasses = options.cssclasses ? options.cssclasses : {}
 
 		this.cssclasses = {
 			btn_cancel: cssclasses.btn_cancel ? cssclasses.btn_cancel : "btn btn-danger",
 			btn_proceed: cssclasses.btn_proceed ? cssclasses.btn_cancel : "btn btn-primary"
 		}
 
-		let messages = options.messages || {}
+		const messages = options.messages || {}
 		this.messages = {
 			title: messages.title ? messages.title : "Confirm",
 			desc: messages.desc ? messages.desc : "",
@@ -72,13 +72,13 @@ class ConfirmModal {
 			onCancel:  (typeof options.onCancel === 'function') ? options.onCancel : null
 		}
 
-		let buttons = options.buttons ? options.buttons : {}
+		const buttons = options.buttons ? options.buttons : {}
 		this.buttons = {
 			cancel: (typeof buttons.cancel === 'boolean') ? buttons.cancel : true,
 			proceed: (typeof buttons.proceed === 'boolean') ? buttons.proceed : true
 		}
 
-		let prompt = options.prompt ? options.prompt : {}
+		const prompt = options.prompt ? options.prompt : {}
 		this.prompt = {
 			enabled: (typeof prompt.enabled === 'boolean') ? prompt.enabled : false,
 			required: (typeof prompt.required === 'boolean') ? prompt.required : false,
