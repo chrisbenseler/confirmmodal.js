@@ -69,6 +69,6 @@
   },
   "dependencies": {
     "uglifyjs": "^2.4.10",
-    "watchify": "^3.7.0"
+    "watchify": "^4.0.0"
   }
 }
