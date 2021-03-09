@@ -1,237 +1,203 @@
-/*!
- * confirmmodal.js v2.0.1
- * https://github.com/chrisbenseler/confirmmodal.js#readme
- *
- * Licensed Apache 2.0 © Christian Benseler
- */
- (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ConfirmModal = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global, factory) {
-	if (typeof define === "function" && define.amd) {
-		define(['module'], factory);
-	} else if (typeof exports !== "undefined") {
-		factory(module);
-	} else {
-		var mod = {
-			exports: {}
-		};
-		factory(mod);
-		global.ConfirmModal = mod.exports;
-	}
-})(this, function (module) {
-	'use strict';
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ConfirmModal = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+"use strict";
 
-	function _classCallCheck(instance, Constructor) {
-		if (!(instance instanceof Constructor)) {
-			throw new TypeError("Cannot call a class as a function");
-		}
-	}
+class PubSub {
+  constructor() {
+    this.subscriptions = {};
+  }
 
-	var _createClass = function () {
-		function defineProperties(target, props) {
-			for (var i = 0; i < props.length; i++) {
-				var descriptor = props[i];
-				descriptor.enumerable = descriptor.enumerable || false;
-				descriptor.configurable = true;
-				if ("value" in descriptor) descriptor.writable = true;
-				Object.defineProperty(target, descriptor.key, descriptor);
-			}
-		}
+  subscribe(key, fn) {
+    this.subscriptions[key] = fn;
+  }
 
-		return function (Constructor, protoProps, staticProps) {
-			if (protoProps) defineProperties(Constructor.prototype, protoProps);
-			if (staticProps) defineProperties(Constructor, staticProps);
-			return Constructor;
-		};
-	}();
+  publish(key, parameters) {
+    if (this.subscriptions[key]) {
+      this.subscriptions[key](parameters);
+    }
+  }
+}
 
-	var PubSub = function () {
-		function PubSub() {
-			_classCallCheck(this, PubSub);
+class ConfirmModal {
+  /**
+   * @param {Object} options
+   */
+  constructor(opts) {
+    this.pubSub = new PubSub();
+    this.events = { proceed: null, cancel: null };
+    this._resolveOptions(opts);
+  }
 
-			this.subscriptions = {};
-		}
+  get promptvalue() {
+    return this.prompt.value;
+  }
 
-		_createClass(PubSub, [{
-			key: 'subscribe',
-			value: function subscribe(key, fn) {
-				this.subscriptions[key] = fn;
-			}
-		}, {
-			key: 'publish',
-			value: function publish(key, parameters) {
-				if (this.subscriptions[key]) {
-					this.subscriptions[key](parameters);
-				}
-			}
-		}]);
+  set promptvalue(value) {
+    this.prompt.value = value;
+  }
 
-		return PubSub;
-	}();
+  /**
+   * Overrides or not default configuration with user provided options
+   * @param {Object} options
+   */
+  _resolveOptions(options = {}) {
+    const prefix = options.id_prefix ? options.id_prefix : "mm-confirmmodal";
 
-	var ConfirmModal = function () {
+    this.ids = {
+      btn_cancel: prefix + "-cancel",
+      btn_proceed: prefix + "-proceed",
+      container: prefix,
+      overlay: prefix + "-overlay",
+    };
 
-		/**
-      * @param {Object} options
-      */
-		function ConfirmModal(opts) {
-			_classCallCheck(this, ConfirmModal);
+    const cssclasses = options.cssclasses ? options.cssclasses : {};
 
-			this.pubSub = new PubSub();
-			this.events = { 'proceed': null, 'cancel': null };
-			this._resolveOptions(opts);
-		}
+    this.cssclasses = {
+      btn_cancel: cssclasses.btn_cancel
+        ? cssclasses.btn_cancel
+        : "btn btn-danger",
+      btn_proceed: cssclasses.btn_proceed
+        ? cssclasses.btn_cancel
+        : "btn btn-primary",
+    };
 
-		_createClass(ConfirmModal, [{
-			key: '_resolveOptions',
-			value: function _resolveOptions() {
-				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    const messages = options.messages || {};
+    this.messages = {
+      title: messages.title ? messages.title : "Confirm",
+      desc: messages.desc ? messages.desc : "",
+      cancel: messages.cancel ? messages.cancel : "Cancel",
+      proceed: messages.proceed ? messages.proceed : "Confirm",
+    };
 
+    this.callbacks = {
+      onProceed:
+        typeof options.onProceed === "function" ? options.onProceed : null,
+      onCancel:
+        typeof options.onCancel === "function" ? options.onCancel : null,
+    };
 
-				var prefix = options.id_prefix ? options.id_prefix : "mm-confirmmodal";
+    const buttons = options.buttons ? options.buttons : {};
+    this.buttons = {
+      cancel: typeof buttons.cancel === "boolean" ? buttons.cancel : true,
+      proceed: typeof buttons.proceed === "boolean" ? buttons.proceed : true,
+    };
 
-				this.ids = {
-					btn_cancel: prefix + "-cancel",
-					btn_proceed: prefix + "-proceed",
-					container: prefix,
-					overlay: prefix + "-overlay"
-				};
+    const prompt = options.prompt ? options.prompt : {};
+    this.prompt = {
+      enabled: typeof prompt.enabled === "boolean" ? prompt.enabled : false,
+      required: typeof prompt.required === "boolean" ? prompt.required : false,
+      value: null,
+    };
+  }
 
-				var cssclasses = options.cssclasses ? options.cssclasses : {};
+  /**
+   * Open the confirm modal
+   */
+  open() {
+    if (!document.getElementById(this.ids.container)) {
+      let prompt = "";
+      if (this.prompt.enabled) {
+        prompt = "<form>";
+        if (this.prompt.required)
+          prompt += `<textarea class='form-control' required></textarea>`;
+        else prompt += `<textarea class='form-control'></textarea>`;
+        prompt += "</form>";
+      }
 
-				this.cssclasses = {
-					btn_cancel: cssclasses.btn_cancel ? cssclasses.btn_cancel : "btn btn-danger",
-					btn_proceed: cssclasses.btn_proceed ? cssclasses.btn_cancel : "btn btn-primary"
-				};
+      let d = document.createElement("div"),
+        html = `<div id='${this.ids.container}'>
+								<div id='${this.ids.container}-content'>
+									<h2>${this.messages.title}</h2>
+									<p>${this.messages.desc}</p>
+									${prompt}
+									<footer>`;
 
-				var messages = options.messages || {};
-				this.messages = {
-					title: messages.title ? messages.title : "Confirm",
-					desc: messages.desc ? messages.desc : "",
-					cancel: messages.cancel ? messages.cancel : "Cancel",
-					proceed: messages.proceed ? messages.proceed : "Confirm"
-				};
+      if (this.buttons.cancel)
+        html += `<button class="${this.cssclasses.btn_cancel}" id="${this.ids.btn_cancel}">${this.messages.cancel}</button>`;
 
-				this.callbacks = {
-					onProceed: typeof options.onProceed === 'function' ? options.onProceed : null,
-					onCancel: typeof options.onCancel === 'function' ? options.onCancel : null
-				};
+      if (this.buttons.proceed)
+        html += `<button class="${this.cssclasses.btn_proceed}" id="${this.ids.btn_proceed}">${this.messages.proceed}</button>`;
 
-				var buttons = options.buttons ? options.buttons : {};
-				this.buttons = {
-					cancel: typeof buttons.cancel === 'boolean' ? buttons.cancel : true,
-					proceed: typeof buttons.proceed === 'boolean' ? buttons.proceed : true
-				};
+      html += `						</footer>
+								</div>
+							  </div>`;
 
-				var prompt = options.prompt ? options.prompt : {};
-				this.prompt = {
-					enabled: typeof prompt.enabled === 'boolean' ? prompt.enabled : false,
-					required: typeof prompt.required === 'boolean' ? prompt.required : false,
-					value: null
-				};
-			}
-		}, {
-			key: 'open',
-			value: function open() {
-				if (!document.getElementById(this.ids.container)) {
+      d.innerHTML = html;
+      document.body.appendChild(d);
 
-					var prompt = '';
-					if (this.prompt.enabled) {
-						prompt = '<form>';
-						if (this.prompt.required) prompt += '<textarea class=\'form-control\' required></textarea>';else prompt += '<textarea class=\'form-control\'></textarea>';
-						prompt += '</form>';
-					}
+      let doverlay = document.createElement("div");
+      doverlay.innerHTML = `<div id='${this.ids.overlay}'></div>`;
+      document.body.appendChild(doverlay);
+    }
 
-					var d = document.createElement("div"),
-					    html = '<div id=\'' + this.ids.container + '\'>\n\t\t\t\t\t\t\t\t<div id=\'' + this.ids.container + '-content\'>\n\t\t\t\t\t\t\t\t\t<h2>' + this.messages.title + '</h2>\n\t\t\t\t\t\t\t\t\t<p>' + this.messages.desc + '</p>\n\t\t\t\t\t\t\t\t\t' + prompt + '\n\t\t\t\t\t\t\t\t\t<footer>';
+    this.modalcontainer = document.getElementById(this.ids.container);
+    this.modaloverlay = document.getElementById(this.ids.overlay);
+    if (this.buttons.proceed) {
+      this.proceed = document.getElementById(this.ids.btn_proceed);
+    }
+    if (this.buttons.cancel) {
+      this.cancel = document.getElementById(this.ids.btn_cancel);
+    }
+    this._handlers();
 
-					if (this.buttons.cancel) html += '<button class="' + this.cssclasses.btn_cancel + '" id="' + this.ids.btn_cancel + '">' + this.messages.cancel + '</button>';
+    return this;
+  }
 
-					if (this.buttons.proceed) html += '<button class="' + this.cssclasses.btn_proceed + '" id="' + this.ids.btn_proceed + '">' + this.messages.proceed + '</button>';
+  on(event_name) {
+    if (["proceed", "cancel"].indexOf(event_name) < 0) return null;
 
-					html += '\t\t\t\t\t\t</footer>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t  </div>';
+    return new Promise((resolve) => {
+      this.pubSub.subscribe(event_name, () => {
+        resolve(this);
+      });
+    });
+  }
 
-					d.innerHTML = html;
-					document.body.appendChild(d);
+  /**
+   * Button handlers
+   */
+  _handlers() {
+    function handle_btn(type) {
+      if (type == "onProceed") {
+        if (
+          this.prompt.enabled &&
+          !document.querySelector(`#${this.ids.container} form`).checkValidity()
+        )
+          return false;
+        if (this.prompt.enabled)
+          this.promptvalue = document.querySelector(
+            `#${this.ids.container} form textarea`
+          ).value;
+      }
+      if (this.callbacks[type]) this.callbacks[type](this);
 
-					var doverlay = document.createElement("div");
-					doverlay.innerHTML = '<div id=\'' + this.ids.overlay + '\'></div>';
-					document.body.appendChild(doverlay);
-				}
+      if (type == "onProceed") this.pubSub.publish("proceed", this);
+      else if (type == "onCancel") this.pubSub.publish("cancel", this);
 
-				this.modalcontainer = document.getElementById(this.ids.container);
-				this.modaloverlay = document.getElementById(this.ids.overlay);
-				if (this.buttons.proceed) {
-					this.proceed = document.getElementById(this.ids.btn_proceed);
-				}
-				if (this.buttons.cancel) {
-					this.cancel = document.getElementById(this.ids.btn_cancel);
-				}
-				this._handlers();
+      this.close();
+    }
 
-				return this;
-			}
-		}, {
-			key: 'on',
-			value: function on(event_name) {
-				var _this = this;
+    if (this.buttons.proceed) {
+      this.proceed.onclick = handle_btn.bind(this, "onProceed");
+    }
 
-				if (['proceed', 'cancel'].indexOf(event_name) < 0) return null;
+    if (this.buttons.cancel) {
+      this.cancel.onclick = handle_btn.bind(this, "onCancel");
+    }
+  }
 
-				return new Promise(function (resolve) {
-					_this.pubSub.subscribe(event_name, function () {
-						resolve(_this);
-					});
-				});
-			}
-		}, {
-			key: '_handlers',
-			value: function _handlers() {
+  /**
+   * Close confirm
+   */
+  close() {
+    if (!this.modalcontainer && !this.modaloverlay) {
+      return new Error("Confirm Modal seems to be not opened");
+    }
+    this.modalcontainer.parentNode.removeChild(this.modalcontainer);
+    this.modaloverlay.parentNode.removeChild(this.modaloverlay);
+  }
+}
 
-				function handle_btn(type) {
-
-					if (type == 'onProceed') {
-						if (this.prompt.enabled && !document.querySelector('#' + this.ids.container + ' form').checkValidity()) return false;
-						if (this.prompt.enabled) this.promptvalue = document.querySelector('#' + this.ids.container + ' form textarea').value;
-					}
-					if (this.callbacks[type]) this.callbacks[type](this);
-
-					if (type == 'onProceed') this.pubSub.publish('proceed', this);else if (type == 'onCancel') this.pubSub.publish('cancel', this);
-
-					this.close();
-				}
-
-				if (this.buttons.proceed) {
-					this.proceed.onclick = handle_btn.bind(this, 'onProceed');
-				}
-
-				if (this.buttons.cancel) {
-					this.cancel.onclick = handle_btn.bind(this, 'onCancel');
-				}
-			}
-		}, {
-			key: 'close',
-			value: function close() {
-				if (!this.modalcontainer && !this.modaloverlay) {
-					return new Error('Confirm Modal seems to be not opened');
-				}
-				this.modalcontainer.parentNode.removeChild(this.modalcontainer);
-				this.modaloverlay.parentNode.removeChild(this.modaloverlay);
-			}
-		}, {
-			key: 'promptvalue',
-			get: function get() {
-				return this.prompt.value;
-			},
-			set: function set(value) {
-				this.prompt.value = value;
-			}
-		}]);
-
-		return ConfirmModal;
-	}();
-
-	module.exports = ConfirmModal;
-});
+module.exports = ConfirmModal;
 
 },{}]},{},[1])(1)
 });
