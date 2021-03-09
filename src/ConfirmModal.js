@@ -74,13 +74,18 @@ class ConfirmModal {
         typeof options.onCancel === "function" ? options.onCancel : null,
     };
 
-    const buttons = options.buttons ? options.buttons : {};
+    this._buttons(options.buttons);
+    this._prompt(options.prompt);
+  }
+
+  _buttons(buttons = {}) {
     this.buttons = {
       cancel: typeof buttons.cancel === "boolean" ? buttons.cancel : true,
       proceed: typeof buttons.proceed === "boolean" ? buttons.proceed : true,
     };
+  }
 
-    const prompt = options.prompt ? options.prompt : {};
+  _prompt(prompt = {}) {
     this.prompt = {
       enabled: typeof prompt.enabled === "boolean" ? prompt.enabled : false,
       required: typeof prompt.required === "boolean" ? prompt.required : false,
@@ -116,9 +121,7 @@ class ConfirmModal {
       if (this.buttons.proceed)
         html += `<button class="${this.cssclasses.btn_proceed}" id="${this.ids.btn_proceed}">${this.messages.proceed}</button>`;
 
-      html += `						</footer>
-								</div>
-							  </div>`;
+      html += `</footer></div></div>`;
 
       d.innerHTML = html;
       document.body.appendChild(d);
